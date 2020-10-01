@@ -1,0 +1,15 @@
+/session.*
+/tramp
+
+# Auto saves (#[FILE]#)
+/auto-saves
+
+# backup ([FILE]~)
+/backups
+
+# auto-save-list is for interrupted sessions
+/auto-save-list
+
+/recentf
+
+/elpa
