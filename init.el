@@ -14,8 +14,10 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
-;; No echo area (margin)
 ;;(fringe-mode 0)
+
+;; Expand to full height
+(setq default-frame-alist '((fullscreen . fullheight)))
 
 
 ;;;; Packages general setting
@@ -29,7 +31,9 @@
      ws-butler
      linum-off
      solarized-theme
-     monokai-theme) "A list of packages.")
+     monokai-theme
+     elpy
+     ) "A list of packages.")
 
 ;; activate all the packages (in particular autoloads)
 (package-initialize)
@@ -46,7 +50,8 @@
 
 ;;;; Theme
 ;;   =====
-(load-theme 'monokai)
+(setq monokai-background "#222E32")
+(load-theme 'monokai t)
 
 
 ;;;; Backup and autosave
@@ -60,8 +65,15 @@
       version-control t)
 
 ;; Auto save (#[FILE]#) settings
+(defvar auto-save-file-directory
+  (concat temporary-file-directory "emacs-auto-saves"))
+(make-directory auto-save-file-directory t)
 (setq auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory "auto-saves") t)))
+      `((".*" ,auto-save-file-directory t)))
+
+;; Tramp setting
+(setq tramp-backup-directory-alist backup-directory-alist)
+(setq tramp-auto-save-directory auto-save-file-directory)
 
 ;; Save history for M-x etc.
 (savehist-mode 1)
@@ -85,8 +97,11 @@
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01
       scroll-preserve-screen-position t
-      auto-window-vscroll nil)
+      auto-window-vscroll nil
+      scroll-error-top-bottom t)
 
+;; environment path
+(setenv "PATH" (concat "~/.local/bin" (getenv "PATH")))
 
 ;;;; Editing
 ;;   =======
@@ -147,6 +162,12 @@
   :init
   (global-linum-mode t))
 
+;; elpy for python
+(use-package elpy
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
+(setq elpy-rpc-python-command "python3")
 
 ;;;; Customize
 ;;   =========
