@@ -1,14 +1,8 @@
 ;;; Emacs configuration
+;;  ===================
 ;; Copyright 2016 - 2020 Peisen Wang
 
 ;; User info
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (setq user-full-name "Peisen Wang"
       user-mail-address "wpeisen@gmail.com")
 
@@ -20,6 +14,39 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+;; No echo area (margin)
+;;(fringe-mode 0)
+
+
+;;;; Packages general setting
+;;   ========================
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.org/packages/") t)
+
+(defvar package-list
+  '(use-package
+     ws-butler
+     linum-off
+     solarized-theme
+     monokai-theme) "A list of packages.")
+
+;; activate all the packages (in particular autoloads)
+(package-initialize)
+
+;; fetch the list of packages available
+(unless package-archive-contents
+  (package-refresh-contents))
+
+;; install the missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+
+;;;; Theme
+;;   =====
+(load-theme 'monokai)
 
 
 ;;;; Backup and autosave
@@ -36,17 +63,29 @@
 (setq auto-save-file-name-transforms
       `((".*" ,(concat user-emacs-directory "auto-saves") t)))
 
+;; Save history for M-x etc.
+(savehist-mode 1)
+(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+
 
 ;;;; General settings
 ;;   ================
 ;; No type full yes
-;;(defalias 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Fast show prefix keys in echo area
 (setq echo-keystrokes 0.1)
 
 ;; recentf
 (recentf-mode t)
+
+;; Scrolling
+(setq scroll-margin 3
+      scroll-conservatively 101
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01
+      scroll-preserve-screen-position t
+      auto-window-vscroll nil)
 
 
 ;;;; Editing
@@ -97,23 +136,16 @@
 (global-set-key (kbd "C--") 'text-scale-decrease)
 
 
-;;;; Packages
-;;   ========
-(require 'package)
-(add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
-
-(defvar custom-installed-packages
-  '(use-package
-     ws-butler
-     linum-off) "A list of packages.")
-
-(require 'cl-lib)
-
-
+;;;; Specific packages setting
+;;   =========================
 ;; Auto delete trailing whitespaces.
 (use-package ws-butler
   :hook (prog-mode . ws-butler-mode))
+
+;; Set line numbers with certain modes as exceptions
+(use-package linum-off
+  :init
+  (global-linum-mode t))
 
 
 ;;;; Customize

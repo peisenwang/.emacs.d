@@ -13,3 +13,8 @@
 /recentf
 
 /elpa
+
+# Customize added by emacs
+/custom.el
+
+/history
