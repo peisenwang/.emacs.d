@@ -1,222 +1,274 @@
-;;; Emacs configuration
-;;  ===================
-;; Copyright 2016 - 2020 Peisen Wang
-
-;; User info
-(setq user-full-name "Peisen Wang"
-      user-mail-address "wpeisen@gmail.com")
-
-
-;;;; Startup and gui
-;;   ===============
-(setq inhibit-startup-message t
-      initial-scratch-message nil)
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-;;(fringe-mode 0)
-
-;; Set title
-(setq frame-title-format '("%f"))
-
-;; Expand to full height
-(setq default-frame-alist '((fullscreen . fullheight)))
+; ---------------------------------------------------------------------------
+;; `init.el': Emacs configration file
+;;
+;; (c) 2016-2018 Peisen Wang
+;;
+(setq user-full-name "Peisen Wang")
+(setq user-mail-address "wangps@mail.ustc.edu.cn")
+;; ---------------------------------------------------------------------------
 
 
-;;;; Packages general setting
-;;   ========================
+;;(add-to-list 'load-path (expand-file-name "scripts" user-emacs-directory))
+
+
+;;; Package Management
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpa.org/packages/") t)
-
-(defvar package-list
-  '(use-package
-     ws-butler
-     linum-off
-     solarized-theme
-     monokai-theme
-     elpy
-     ) "A list of packages.")
-
-;; activate all the packages (in particular autoloads)
+             '("melpa" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
-
-;; fetch the list of packages available
-(unless package-archive-contents
+(when (not package-archive-contents)
   (package-refresh-contents))
 
-;; install the missing packages
-(dolist (package package-list)
-  (unless (package-installed-p package)
-    (package-install package)))
+(defvar myPkgs
+  '(
+    elpy
+    ;;color-theme-sanityinc-tomorrow
+    solarized-theme
+    ;;leuven-theme
+    ;;rainbow-mode
+    ws-butler
+    linum-off))
+
+(mapc #'(lambda (package)
+    (unless (package-installed-p package)
+      (package-install package)))
+      myPkgs)
 
 
-;;;; Theme
-;;   =====
-(setq monokai-background "#222E32")
-(load-theme 'monokai t)
+;;; Appearance
+;;(set-fringe-mode '(1. 0))
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 
+;; Maximize window size at start:
+;;(setq initial-frame-alist (quote ((fullscreen . maximized))))
 
-;;;; Backup and autosave
-;;   ===================
-;; Backup ([FILE]~) settings
-(setq backup-directory-alist
-      `(("." . ,(concat user-emacs-directory "backups"))))
-(setq delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)
+;; color theme:
+(defun org-theme () (interactive) (load-theme 'leuven t))
+(defun light-theme () (interactive) (load-theme 'solarized-light t))
+(defun dark-theme () (interactive) (load-theme 'solarized-dark t))
+(dark-theme)
 
-;; Auto save (#[FILE]#) settings
-(defvar auto-save-file-directory
-  (concat temporary-file-directory "emacs-auto-saves"))
-(make-directory auto-save-file-directory t)
-(setq auto-save-file-name-transforms
-      `((".*" ,auto-save-file-directory t)))
+;; Emacs frame title:
+(setq frame-title-format '(""))
 
-;; Tramp setting
-(setq tramp-backup-directory-alist backup-directory-alist)
-(setq tramp-auto-save-directory auto-save-file-directory)
-
-;; Save history for M-x etc.
-(savehist-mode t)
-(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
-
-
-;;;; General settings
-;;   ================
-;; Auto load changed files
-(global-auto-revert-mode t)
-
-;; recentf
-(recentf-mode t)
-
-;; No type full yes
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;; Fast show prefix keys in echo area
-(setq echo-keystrokes 0.1)
-
-;; Scrolling
-(setq scroll-margin 3
-      scroll-conservatively 101
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01
-      scroll-preserve-screen-position t
-      auto-window-vscroll nil
-      ;; C-v and M-v scroll to the end
-      scroll-error-top-bottom t)
-
-;; environment path
-(setenv "PATH" (concat "~/.local/bin" (getenv "PATH")))
-
-
-;;;; Editing
-;;   =======
-;; Tab
-(setq tab-width 4
-      indent-tabs-model nil)
-
-;; Show parentheses
-(show-paren-mode t)
-(setq show-paren-style 'mixed)
-
-;; auto parenthese pair
-(add-hook 'prog-mode-hook #'electric-pair-mode)
-
-;; Larger kill ring size
-(setq kill-ring-max 500)
-
-;; EOF newline
-(setq require-final-newline t)
-
-;; Show column number
+;; Show line number:
+(global-linum-mode t)
+(setq linum-format "%d ")
+;; Don't show line number in certain modes, like `ansi-term':
+;; Adding hooks like `term-mode-hook' does not work, maybe a bug, so use
+;; `linum-off' package.
+(require 'linum-off)
+(add-to-list 'linum-disabled-modes-list 'ansi-term)
+;; Don't display line number at bottom:
+(line-number-mode -1)
+;; Display column number at bottom: 
 (setq column-number-mode t)
 
-;; Do not show line number at bottom
-(setq line-number-mode nil)
+;; Line limit
+(setq-default
+ whitespace-line-column 80
+ whitespace-style       '(face lines-tail))
+(add-hook 'prog-mode-hook #'whitespace-mode)
 
-;; Better display for files with the same name
+;; Increse default font size and window size on mac:
+(if (eq system-type 'darwin)
+    (set-default-font "Monaco 13"))
+
+;; no startup message
+(setq inhibit-startup-message t
+      initial-scratch-message nil
+      initial-major-mode 'eshell)
+
+;; bref anwser to yes or no:
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Instant feedback completion
+(ido-mode t)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+
+;; Save minibuffer history:
+(savehist-mode 1)
+
+(setq enable-recursive-minibuffers t)
+
+;; Paste from x clipboard:
+(setq x-select-enable-clipboard t)
+
+(setq mouse-yank-at-point t)
+
+;; Better display for files with the same name:
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
+;; Smooth scrolling:
+(setq scroll-step 1)
+;;(setq scroll-conservatively 5)
 
-;;;; Key-bindings
-;;   ============
-;; Use "C-x C-o" instead of "C-x o" to switch windows
-;; (originally `delete-blank-lines')
+;; Scroll up and down commands (`C-v' and `M-v') scroll to the end:
+(setq scroll-error-top-bottom 'true)
+
+(setq apropos-do-all t)
+
+;; Auto load changed files:
+(global-auto-revert-mode t)
+
+;; Backup and auto-save settings
+;; `TODO:' Uniform the position and create if non-exist.
+(setq
+    backup-by-copying t ; automatic backup
+    backup-directory-alist '(("." . "~/.emacs.d/saves/")) ; place to save
+    delete-old-versions t 
+    kept-new-versions 6)
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; Save tramp at local
+(setq tramp-auto-save-directory temporary-file-directory)
+(setq tramp-backup-directory-alist backup-directory-alist)
+
+;; Enable tramp mode password caching
+(setq password-cache-expiry nil)
+
+
+;;; Editing
+;; Do not input tabs:
+(setq-default indent-tabs-mode nil)
+(setq default-tab-width 4)
+
+;; Show brackets:
+(show-paren-mode t)
+(setq show-paren-style 'parentheses)
+
+(setq require-final-newline t)
+
+(setq kill-ring-max 200)
+
+;; Trim whitespaces at end of the lines.
+(require 'ws-butler)
+(add-hook 'prog-mode-hook #'ws-butler-mode)
+
+;;; key bindings
+;; Set `COMMAND' as `META' and `OPTION' as `SUPER' for mac:
+(setq mac-option-modifier 'super)
+(setq mac-command-modifier 'meta)
+
+;; previously binded to `delete-blank-lines'
 (global-set-key (kbd "C-x C-o") 'other-window)
 
-;; Switch "C-x b" and "C-x C-b" for buffer switching
-(global-set-key (kbd "C-x b") 'list-buffers)
-(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
+;; previously binded to `open-line' and `electric-newline-and-maybe-indent'
+(global-set-key (kbd "C-o") (kbd "C-e C-m"))
+(global-set-key (kbd "C-j") (kbd "C-p C-e C-m"))
 
-;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
+;; previously binded to `kill-buffer'
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
 
-;; Create nextline for "C-o" (originally `open-line')
-(global-set-key (kbd "C-o") (kbd "C-e C-M"))
-;; Create a previous line for "C-j" (originally `eval-print-last-sexp')
-(global-set-key (kbd "C-j") (kbd "C-a C-M C-p"))
+;; exchange keys binded to `list-buffers' and `switch-to-buffer'
+(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
+(global-set-key (kbd "C-x b") 'list-buffers)
 
-;; Enable type return when holding control
-(global-set-key (kbd "<C-return>") (kbd "RET"))
-
-;; Comment region
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;; Use "C-q" to switch window like what I do for tmux (originally `quoted-insert')
-(global-unset-key (kbd "C-q"))
-(global-set-key (kbd "C-q C-p") 'windmove-up)
-(global-set-key (kbd "C-q C-n") 'windmove-down)
-(global-set-key (kbd "C-q C-f") 'windmove-right)
-(global-set-key (kbd "C-q C-b") 'windmove-left)
-(global-set-key (kbd "C-q C-o") 'other-window)
-(global-set-key (kbd "C-q -") 'split-window-below)
-(global-set-key (kbd "C-q |") 'split-window-right)
+;; Enable type return when holding control:
+(global-set-key (kbd "<C-return>") (kbd "RET"))
 
-;; Easy toggle text size
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
-
-;; Use command as meta and option as super for mac
-(setq mac-option-modifier 'super
-      mac-command-modifier 'meta)
+;; Replaced with more powerful equivalents
+(global-set-key (kbd "M-/") 'hippie-expand)
 
 
-;;;; Specific packages setting
-;;   =========================
-;; ido
-(use-package ido
-  :config
-  (setq ido-everywhere t
-	ido-enable-flex-matching t
-	ido-use-filename-at-point 'guess)
-  (ido-mode t))
-
-;; Auto delete trailing whitespaces.
-(use-package ws-butler
-  :hook (prog-mode . ws-butler-mode))
-
-;; Set line numbers with certain modes as exceptions
-(use-package linum-off
-  :init
-  (global-linum-mode t)
-  :config
-  (add-to-list 'linum-disabled-modes-list 'ansi-term))
-
-;; elpy for python
-(use-package elpy
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable)
-  :config
-  (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
-  )
+;;; Tools
+;; Set python path
 (setq elpy-rpc-python-command "python3")
+(setq python-shell-interpreter "python3")
+;; enable elpy:
+(elpy-enable)
+;; Prevent elpy from highlighting indents. 
+(delete 'elpy-module-highlight-indentation elpy-modules)
 
+;; MATLAB mode
+;; Treat `.m' files as MATLAB files by default:
+(setq auto-mode-alist
+      (cons
+       '("\\.m$" . octave-mode)
+       auto-mode-alist))
 
-;;;; Customize
-;;   =========
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(load-file custom-file)
+;; term / ansi-term mode
+;; Add key binding for starting term:
+;(global-set-key (kbd "C-x C-t") 'ansi-term)
+;; Pervent ansi-term from asking what shell to use every time:
+(defvar term-shell-name 'shell-file-name)
+(defadvice ansi-term (before force-bash)
+  (interactive (list shell-file-name)))
+(ad-activate 'ansi-term)
+;; Close buffer after logging out from terminal:
+;; This also closes eshell's visual commands.
+(defadvice term-handle-exit
+  (after term-kill-buffer-on-exit activate)
+  (kill-buffer))
+;; Paste into term
+(eval-after-load "term"
+  '(define-key term-raw-map (kbd "C-c C-y") 'term-paste))
+
+;; eshell
+;; Initialization  
+(defun eshell-new ()
+  (interactive)
+  (eshell t))
+(global-set-key (kbd "C-x C-t") 'eshell-new)
+;; List of visual commands 
+(setq additional-eshell-visual-commands
+      '("python" "python3" "ipython" "ipython3" "ssh" "bash"))
+(defun m-eshell-hook ()
+  ;; Use C-p and C-n to switch input lines.
+  (define-key eshell-mode-map [(control p)]
+    'eshell-previous-matching-input-from-input)
+  (define-key eshell-mode-map [(control n)]
+    'eshell-next-matching-input-from-input)
+  (define-key eshell-mode-map [up] 'previous-line)
+  (define-key eshell-mode-map [down] 'next-line)
+  ;; Default path
+  (setq eshell-path-env (concat "/usr/local/bin:" eshell-path-env))
+  ;; Visual commands
+  (setq eshell-visual-commands
+        (append eshell-visual-commands additional-eshell-visual-commands))
+  ;; Enable tramp
+  (add-to-list 'eshell-modules-list 'eshell-tramp)
+)
+(add-hook 'eshell-mode-hook 'm-eshell-hook)
+;; Complete like bash
+(setq eshell-cmpl-cycle-completions nil)
+;; Jump to prompt on keypress
+(setq eshell-scroll-to-bottom-on-input t)
+
+;; Server addresses 
+;;;(load-file (expand-file-name "servers.el" user-emacs-directory))
+
+;; org mode
+;; Key bindings:
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-log-done t)
+;; Agenda files:
+;;(setq org-agenda-files (list "~/Dropbox/notes/lab.org"
+;;                             "~/Dropbox/notes/others.org"
+;;                             "~/Dropbox/notes/life.org"))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" default)))
+ '(package-selected-packages
+   (quote
+    (material-theme ws-butler gnu-elpa-keyring-update solarized-theme linum-off elpy))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
