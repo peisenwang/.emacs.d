@@ -154,6 +154,9 @@
 ;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
 
+;; Set key-binding for `replace-string'
+(global-set-key (kbd "C-x s") 'replace-string)
+
 ;; Create nextline for "C-o" (originally `open-line')
 (global-set-key (kbd "C-o") (kbd "C-e C-M"))
 ;; Create a previous line for "C-j" (originally `eval-print-last-sexp')
@@ -212,8 +215,12 @@
   (advice-add 'python-mode :before 'elpy-enable)
   :config
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
-  )
-(setq elpy-rpc-python-command "python3")
+  (setq elpy-rpc-python-command "python3"))
+
+;; Visual indication for replace-regexp
+(use-package visual-regexp
+  :bind
+  ("C-x M-s" . vr/replace))
 
 
 ;;;; Customize
