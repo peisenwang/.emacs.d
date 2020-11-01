@@ -123,6 +123,7 @@
 
 ;; auto parenthese pair
 (add-hook 'prog-mode-hook #'electric-pair-mode)
+(setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
 
 ;; Larger kill ring size
 (setq kill-ring-max 500)
