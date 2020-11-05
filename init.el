@@ -91,6 +91,8 @@
 
 ;; recentf
 (recentf-mode t)
+(setq recentf-max-menu-items 25)
+(global-set-key (kbd "C-x C-r") 'recentf-open-files)
 
 ;; No type full yes
 (defalias 'yes-or-no-p 'y-or-n-p)
