@@ -19,8 +19,9 @@
 ;; Set title
 (setq frame-title-format '("%f"))
 
-;; Expand to full height
-(setq default-frame-alist '((fullscreen . fullheight)))
+;; Setup window
+(setq default-frame-alist '((fullscreen . fullheight) (width . 170)))
+(split-window-horizontally)
 
 
 ;;;; Packages general setting
