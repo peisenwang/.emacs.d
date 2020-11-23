@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: shebang
+# key: #!
+# group: Header
+# --
+#!/usr/bin/env python3
