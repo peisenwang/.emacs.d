@@ -94,7 +94,7 @@
 
 ;; recentf
 (recentf-mode t)
-(setq recentf-max-menu-items 25)
+(setq recentf-max-menu-items 50)
 (global-set-key (kbd "C-x C-r") 'recentf-open-files)
 
 ;; No type full yes
@@ -222,7 +222,16 @@
   (advice-add 'python-mode :before 'elpy-enable)
   :config
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
-  (setq elpy-rpc-python-command "python3"))
+  (setq elpy-rpc-python-command "python3")
+  )
+
+;; yasnippet
+(use-package yasnippet
+  :defer t
+  :config
+  (add-to-list 'yas-snippet-dirs
+	       (concat user-emacs-directory "work-snippets"))
+)
 
 ;; Visual indication for replace-regexp
 (use-package visual-regexp
