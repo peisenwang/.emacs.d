@@ -206,7 +206,9 @@
 
 ;; Auto delete trailing whitespaces.
 (use-package ws-butler
-  :hook (prog-mode . ws-butler-mode))
+  :hook (prog-mode . ws-butler-mode)
+  :config
+  (setq ws-butler-keep-whitespace-before-point nil))
 
 ;; Set line numbers with certain modes as exceptions
 (use-package linum-off
