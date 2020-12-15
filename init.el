@@ -193,6 +193,39 @@
 (setq mac-option-modifier 'super
       mac-command-modifier 'meta)
 
+;; Delete word and line without saving to kill ring.
+(defun delete-word (arg)
+  "Delete word without saving to kill ring, modified from `kill-word'."
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+
+(defun delete-line (&optional arg)
+  "Delete line without saving to kill ring, modified from `kill-line'."
+  (interactive "P")
+  (delete-region
+   (point)
+   (progn
+     (if arg
+	 (forward-visible-line (prefix-numeric-value arg))
+       (if (eobp)
+	   (signal 'end-of-buffer nil))
+       (let ((end
+	      (save-excursion
+		(end-of-visible-line) (point))))
+	 (if (or (save-excursion
+		   ;; If trailing whitespace is visible,
+		   ;; don't treat it as nothing.
+		   (unless show-trailing-whitespace
+		     (skip-chars-forward " \t" end))
+		   (= (point) end))
+		 (and kill-whole-line (bolp)))
+	     (forward-visible-line 1)
+	   (goto-char end))))
+     (point))))
+
+(global-set-key (kbd "M-d") 'delete-word)
+(global-set-key (kbd "C-k") 'delete-line)
+
 
 ;;;; Specific packages setting
 ;;   =========================
