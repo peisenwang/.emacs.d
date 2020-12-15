@@ -223,16 +223,25 @@
 	   (goto-char end))))
      (point))))
 
+;; Originally `kill-word' and `kill-line'.
 (global-set-key (kbd "M-d") 'delete-word)
 (global-set-key (kbd "C-k") 'delete-line)
 
+
 ;; Scroll half of window instead of one window.
-(use-package view
-  :ensure t
-  :config
-  ;; Originally bound to `scroll-up-command' and `scroll-down-command'.
-  (global-set-key (kbd "C-v") 'View-scroll-half-page-forward)
-  (global-set-key (kbd "M-v") 'View-scroll-half-page-backward))
+(defun scroll-half-page-down ()
+  "scroll down half the page"
+  (interactive)
+  (scroll-down-command (/ (window-body-height) 2)))
+
+(defun scroll-half-page-up ()
+  "scroll up half the page"
+  (interactive)
+  (scroll-up-command (/ (window-body-height) 2)))
+
+;; Originally `scroll-up-command' and `scroll-down-command'.
+(global-set-key (kbd "C-v") 'scroll-half-page-up)
+(global-set-key (kbd "M-v") 'scroll-half-page-down)
 
 
 ;;;; Specific packages setting
