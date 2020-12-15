@@ -226,6 +226,14 @@
 (global-set-key (kbd "M-d") 'delete-word)
 (global-set-key (kbd "C-k") 'delete-line)
 
+;; Scroll half of window instead of one window.
+(use-package view
+  :ensure t
+  :config
+  ;; Originally bound to `scroll-up-command' and `scroll-down-command'.
+  (global-set-key (kbd "C-v") 'View-scroll-half-page-forward)
+  (global-set-key (kbd "M-v") 'View-scroll-half-page-backward))
+
 
 ;;;; Specific packages setting
 ;;   =========================
@@ -257,16 +265,14 @@
   (advice-add 'python-mode :before 'elpy-enable)
   :config
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
-  (setq elpy-rpc-python-command "python3")
-  )
+  (setq elpy-rpc-python-command "python3"))
 
 ;; yasnippet
 (use-package yasnippet
   :defer t
   :config
   (add-to-list 'yas-snippet-dirs
-	       (concat user-emacs-directory "work-snippets"))
-)
+	       (concat user-emacs-directory "work-snippets")))
 
 ;; Visual indication for replace-regexp
 (use-package visual-regexp
