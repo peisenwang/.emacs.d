@@ -26,37 +26,24 @@
 
 ;;;; Packages general setting
 ;;   ========================
+(package-initialize)
 (require 'package)
 (setq package-archives
       '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
 	("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
 
-(defvar package-list
-  '(use-package
-     ws-butler
-     linum-off
-     solarized-theme
-     monokai-theme
-     elpy
-     ) "A list of packages.")
-
-;; activate all the packages (in particular autoloads)
-(package-initialize)
-
-;; fetch the list of packages available
-(unless package-archive-contents
-  (package-refresh-contents))
-
 ;; install the missing packages
-(dolist (package package-list)
+(dolist (package '(use-package))
   (unless (package-installed-p package)
     (package-install package)))
 
 
 ;;;; Theme
 ;;   =====
-(setq monokai-background "#222E32")
-(load-theme 'monokai t)
+(use-package monokai-theme
+  :config
+  (setq monokai-background "#222E32")
+  (load-theme 'monokai t))
 
 
 ;;;; Backup and autosave
