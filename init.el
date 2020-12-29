@@ -83,7 +83,8 @@
 ;; recentf
 (recentf-mode t)
 (setq recentf-max-menu-items 50)
-(global-set-key (kbd "C-x C-r") 'recentf-open-files)
+;; Previously binded to `set-fill-column'
+(global-set-key (kbd "C-x f") 'recentf-open-files)
 
 ;; No type full yes
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -149,8 +150,8 @@
 ;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
 
-;; Set key-binding for `replace-string'
-(global-set-key (kbd "C-x s") 'replace-string)
+;; Set key-binding for replacing, originally binded by ido
+(global-set-key (kbd "C-x C-r") 'replace-string)
 
 ;; Create nextline for "C-o" (originally `open-line')
 (global-set-key (kbd "C-o") (kbd "C-e C-M"))
@@ -276,7 +277,7 @@
 ;; Visual indication for replace-regexp
 (use-package visual-regexp
   :bind
-  ("C-x M-s" . vr/replace))
+  ("C-x M-r" . vr/replace))
 
 ;; markdown
 (use-package markdown-mode
