@@ -242,8 +242,9 @@
 	ido-enable-flex-matching t
 	ido-use-filename-at-point 'guess)
   (ido-mode t)
+  :bind
   ;; Previously binded to `set-goal-coloum' and will always pop up.
-  (global-set-key (kbd "C-x C-n") 'ido-switch-buffer-other-window))
+  ("C-x C-n" . ido-switch-buffer-other-window))
 
 ;; Auto delete trailing whitespaces.
 (use-package ws-butler
