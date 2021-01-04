@@ -266,7 +266,11 @@
   (advice-add 'python-mode :before 'elpy-enable)
   :config
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
-  (setq elpy-rpc-python-command "python3"))
+  (setq elpy-rpc-python-command "python3")
+  :bind
+  (:map elpy-mode-map
+	;; Overwrites `elpy-refactor-extract-function'
+	("C-c C-r f" . elpy-format-code)))
 
 ;; yasnippet
 (use-package yasnippet
