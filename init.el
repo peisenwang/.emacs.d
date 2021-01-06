@@ -1,6 +1,6 @@
 ;;; Emacs configuration
 ;;  ===================
-;; Copyright 2016 - 2020 Peisen Wang
+;; Copyright 2016 - 2021 Peisen Wang
 
 ;; User info
 (setq user-full-name "Peisen Wang"
