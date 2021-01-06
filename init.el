@@ -128,7 +128,8 @@
 
 ;; auto parenthese pair
 (add-hook 'prog-mode-hook #'electric-pair-mode)
-(setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+(setq-default electric-pair-inhibit-predicate
+	      'electric-pair-conservative-inhibit)
 
 ;; Larger kill ring size
 (setq kill-ring-max 500)
@@ -145,6 +146,22 @@
 ;; Better display for files with the same name
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
+
+;; Set fill-column
+(setq-default fill-column 78)
+
+;; Unfill paragraph
+(defun unfill-paragraph ()
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive)
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil)))
+
+(global-set-key (kbd "M-Q") 'unfill-paragraph)
+
+;; Use visual-line-mode for org mode
+;; (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+;; (add-hook 'org-mode-hook #'visual-line-mode)
 
 
 ;;;; Key-bindings
@@ -277,6 +294,7 @@
   :config
   (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
   (setq elpy-rpc-python-command "python3")
+  (setq python-fill-docstring-style 'django)
   :bind
   (:map elpy-mode-map
 	;; Overwrites `elpy-refactor-extract-function'
