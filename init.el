@@ -45,6 +45,15 @@
   (setq monokai-background "#222E32")
   (load-theme 'monokai t))
 
+;; Make line warp arrows darker
+(defface fringe-dark
+  '((t (:foreground "#525252")))
+  "Face for fringe bitmaps."
+  :group 'basic-faces)
+
+(set-fringe-bitmap-face 'left-curly-arrow 'fringe-dark)
+(set-fringe-bitmap-face 'right-curly-arrow 'fringe-dark)
+
 
 ;;;; Backup and autosave
 ;;   ===================
