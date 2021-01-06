@@ -82,7 +82,8 @@
 
 ;; recentf
 (recentf-mode t)
-(setq recentf-max-menu-items 50)
+(setq recentf-max-saved-items 50
+      recentf-max-menu-items 50)
 ;; Previously binded to `set-fill-column'
 (global-set-key (kbd "C-x f") 'recentf-open-files)
 
