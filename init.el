@@ -264,6 +264,7 @@
 ;;   =========================
 ;; ido
 (use-package ido
+  :demand
   :config
   (setq ido-everywhere t
 	ido-enable-flex-matching t
