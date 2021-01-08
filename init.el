@@ -1,6 +1,8 @@
 ;;; Emacs configuration
 ;;  ===================
 ;; Copyright 2016 - 2021 Peisen Wang
+;;
+;; Use "grep -E '^;{3,}' init.el" to show the outline of this file.
 
 ;; User info
 (setq user-full-name "Peisen Wang"
@@ -14,14 +16,13 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (scroll-bar-mode 0)
-;;(fringe-mode 0)
-
-;; Set title
-(setq frame-title-format '("%f"))
 
 ;; Setup window
 (setq default-frame-alist '((fullscreen . fullheight) (width . 170)))
 (split-window-horizontally)
+
+;; Set title
+(setq frame-title-format '("%f"))
 
 
 ;;;; Packages general setting
@@ -74,7 +75,7 @@
 (setq auto-save-file-name-transforms
       `((".*" ,auto-save-file-directory t)))
 
-;; Tramp setting
+;; Tramp specific settings
 (setq tramp-backup-directory-alist backup-directory-alist)
 (setq tramp-auto-save-directory auto-save-file-directory)
 
@@ -85,12 +86,6 @@
 ;; Do not create lock files
 (setq create-lockfiles nil)
 
-
-;;;; General settings
-;;   ================
-;; Auto load changed files
-(global-auto-revert-mode t)
-
 ;; recentf
 (recentf-mode t)
 (setq recentf-max-saved-items 50
@@ -98,32 +93,110 @@
 ;; Previously binded to `set-fill-column'
 (global-set-key (kbd "C-x f") 'recentf-open-files)
 
+
+;;;; General settings
+;;   ================
+;; environment path
+(setenv "PATH" (concat "~/.local/bin" (getenv "PATH")))
+
+;; Use command as meta and option as super for mac
+(setq mac-option-modifier 'super
+      mac-command-modifier 'meta)
+
+
+;;;; Window & buffer management
+;;   ==========================
+;; Use "C-x C-o" instead of "C-x o" to switch windows
+;; (originally `delete-blank-lines')
+(global-set-key (kbd "C-x C-o") 'other-window)
+
+;; Use "C-q" to switch window like what I do in tmux (originally `quoted-insert')
+(global-unset-key (kbd "C-q"))
+(global-set-key (kbd "C-q C-p") 'windmove-up)
+(global-set-key (kbd "C-q C-n") 'windmove-down)
+(global-set-key (kbd "C-q C-f") 'windmove-right)
+(global-set-key (kbd "C-q C-b") 'windmove-left)
+(global-set-key (kbd "C-q C-o") 'other-window)
+(global-set-key (kbd "C-q -") 'split-window-below)
+(global-set-key (kbd "C-q |") 'split-window-right)
+
+;; Swap content between windows
+(defun swap-buffers-in-windows ()
+  "Put the buffer from the selected window in next window, and vice versa
+copied from https://stackoverflow.com/a/1774949"
+  (interactive)
+  (let* ((this (selected-window))
+     (other (next-window))
+     (this-buffer (window-buffer this))
+     (other-buffer (window-buffer other)))
+    (set-window-buffer other this-buffer)
+    (set-window-buffer this other-buffer)))
+
+(global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
+
+;; Swap "C-x b" and "C-x C-b" for buffer switching
+(global-set-key (kbd "C-x b") 'list-buffers)
+(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
+
+;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
+(global-set-key (kbd "C-x C-k") 'kill-this-buffer)
+
+
+;;;; Editing interface
+;;   =================
+
+;;;;; Opening files
+;; Auto load changed files
+(global-auto-revert-mode t)
+
+;; ido
+(use-package ido
+  :demand
+  :config
+  (setq ido-everywhere t
+	ido-enable-flex-matching t
+	ido-use-filename-at-point 'guess)
+  (ido-mode t)
+  :bind
+  ;; Previously binded to `set-goal-coloum' and will always pop up.
+  ("C-x C-n" . ido-switch-buffer-other-window))
+
+;; Better display for files with the same name
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward))
+
+;;;;; Line/column number
+;; Do not show line number at bottom
+(setq line-number-mode nil)
+
+;; Show column number
+(setq column-number-mode t)
+
+;; Set line numbers with certain modes as exceptions
+(use-package linum-off
+  :init
+  (global-linum-mode t)
+  :config
+  (add-to-list 'linum-disabled-modes-list 'ansi-term))
+
+;;;;; Mode line & echo area
 ;; No type full yes
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ;; Fast show prefix keys in echo area
 (setq echo-keystrokes 0.1)
 
-;; Scrolling
-(setq scroll-margin 3
-      scroll-conservatively 101
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01
-      scroll-preserve-screen-position t
-      auto-window-vscroll nil
-      ;; C-v and M-v scroll to the end
-      scroll-error-top-bottom t)
-
-;; environment path
-(setenv "PATH" (concat "~/.local/bin" (getenv "PATH")))
+;;;;; Text area
+;; Easy toggle text size
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
 
 
-;;;; Editing
-;;   =======
-;; Tab
-(setq tab-width 4
-      indent-tabs-model nil)
+;;;; Text
+;;   ====
 
+;;;;; Parentheses
 ;; Show parentheses
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
@@ -133,22 +206,21 @@
 (setq-default electric-pair-inhibit-predicate
 	      'electric-pair-conservative-inhibit)
 
-;; Larger kill ring size
-(setq kill-ring-max 500)
+;;;;; Empty texts
+;; Tab size
+(setq tab-width 4
+      indent-tabs-model nil)
 
 ;; EOF newline
 (setq require-final-newline t)
 
-;; Show column number
-(setq column-number-mode t)
+;; Auto delete trailing whitespaces.
+(use-package ws-butler
+  :hook (prog-mode . ws-butler-mode)
+  :config
+  (setq ws-butler-keep-whitespace-before-point nil))
 
-;; Do not show line number at bottom
-(setq line-number-mode nil)
-
-;; Better display for files with the same name
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-
+;;;;; Width control
 ;; Set fill-column
 (setq-default fill-column 78)
 
@@ -159,6 +231,7 @@
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
+;; Originally the same as M-q
 (global-set-key (kbd "M-Q") 'unfill-paragraph)
 
 ;; Use visual-line-mode for org mode
@@ -166,22 +239,10 @@
 ;; (add-hook 'org-mode-hook #'visual-line-mode)
 
 
-;;;; Key-bindings
-;;   ============
-;; Use "C-x C-o" instead of "C-x o" to switch windows
-;; (originally `delete-blank-lines')
-(global-set-key (kbd "C-x C-o") 'other-window)
+;;;; Editing control
+;;   ===============
 
-;; Switch "C-x b" and "C-x C-b" for buffer switching
-(global-set-key (kbd "C-x b") 'list-buffers)
-(global-set-key (kbd "C-x C-b") 'switch-to-buffer)
-
-;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
-(global-set-key (kbd "C-x C-k") 'kill-this-buffer)
-
-;; Set key-binding for replacing, originally binded by ido
-(global-set-key (kbd "C-x C-r") 'replace-string)
-
+;;;;; General editing key-bindings
 ;; Create nextline for "C-o" (originally `open-line')
 (global-set-key (kbd "C-o") (kbd "C-e C-M"))
 ;; Create a previous line for "C-j" (originally `eval-print-last-sexp')
@@ -193,23 +254,35 @@
 ;; Comment region
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;; Use "C-q" to switch window like what I do for tmux (originally `quoted-insert')
-(global-unset-key (kbd "C-q"))
-(global-set-key (kbd "C-q C-p") 'windmove-up)
-(global-set-key (kbd "C-q C-n") 'windmove-down)
-(global-set-key (kbd "C-q C-f") 'windmove-right)
-(global-set-key (kbd "C-q C-b") 'windmove-left)
-(global-set-key (kbd "C-q C-o") 'other-window)
-(global-set-key (kbd "C-q -") 'split-window-below)
-(global-set-key (kbd "C-q |") 'split-window-right)
+;;;;; Navigating
+;; Scrolling
+(setq scroll-margin 3
+      scroll-conservatively 101
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01
+      scroll-preserve-screen-position t
+      auto-window-vscroll nil
+      ;; C-v and M-v scroll to the end
+      scroll-error-top-bottom t)
 
-;; Easy toggle text size
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
+;; Scroll half of window instead of one window.
+(defun scroll-half-page-down ()
+  "scroll down half the page"
+  (interactive)
+  (scroll-down-command (/ (window-body-height) 2)))
 
-;; Use command as meta and option as super for mac
-(setq mac-option-modifier 'super
-      mac-command-modifier 'meta)
+(defun scroll-half-page-up ()
+  "scroll up half the page"
+  (interactive)
+  (scroll-up-command (/ (window-body-height) 2)))
+
+;; Originally `scroll-up-command' and `scroll-down-command'.
+(global-set-key (kbd "C-v") 'scroll-half-page-up)
+(global-set-key (kbd "M-v") 'scroll-half-page-down)
+
+;;;;; Deleting
+;; Larger kill ring size
+(setq kill-ring-max 500)
 
 ;; Delete word and line without saving to kill ring.
 (defun delete-word (arg)
@@ -245,63 +318,18 @@
 (global-set-key (kbd "M-d") 'delete-word)
 (global-set-key (kbd "C-k") 'delete-line)
 
-;; Scroll half of window instead of one window.
-(defun scroll-half-page-down ()
-  "scroll down half the page"
-  (interactive)
-  (scroll-down-command (/ (window-body-height) 2)))
+;;;;; Replacing
+;; Set key-binding for replacing, originally binded by ido
+(global-set-key (kbd "C-x C-r") 'replace-string)
 
-(defun scroll-half-page-up ()
-  "scroll up half the page"
-  (interactive)
-  (scroll-up-command (/ (window-body-height) 2)))
-
-;; Originally `scroll-up-command' and `scroll-down-command'.
-(global-set-key (kbd "C-v") 'scroll-half-page-up)
-(global-set-key (kbd "M-v") 'scroll-half-page-down)
-
-;; Swap content between windows
-(defun swap-buffers-in-windows ()
-  "Put the buffer from the selected window in next window, and vice versa
-copied from https://stackoverflow.com/a/1774949"
-  (interactive)
-  (let* ((this (selected-window))
-     (other (next-window))
-     (this-buffer (window-buffer this))
-     (other-buffer (window-buffer other)))
-    (set-window-buffer other this-buffer)
-    (set-window-buffer this other-buffer)))
-
-(global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
-
-
-;;;; Specific packages setting
-;;   =========================
-;; ido
-(use-package ido
-  :demand
-  :config
-  (setq ido-everywhere t
-	ido-enable-flex-matching t
-	ido-use-filename-at-point 'guess)
-  (ido-mode t)
+;; Visual indication for replace-regexp
+(use-package visual-regexp
   :bind
-  ;; Previously binded to `set-goal-coloum' and will always pop up.
-  ("C-x C-n" . ido-switch-buffer-other-window))
+  ("C-x M-r" . vr/replace))
 
-;; Auto delete trailing whitespaces.
-(use-package ws-butler
-  :hook (prog-mode . ws-butler-mode)
-  :config
-  (setq ws-butler-keep-whitespace-before-point nil))
 
-;; Set line numbers with certain modes as exceptions
-(use-package linum-off
-  :init
-  (global-linum-mode t)
-  :config
-  (add-to-list 'linum-disabled-modes-list 'ansi-term))
-
+;;;; Package-specific settings
+;;   =========================
 ;; elpy for python
 (use-package elpy
   :defer t
@@ -323,11 +351,6 @@ copied from https://stackoverflow.com/a/1774949"
   (add-to-list 'yas-snippet-dirs
 	       (concat user-emacs-directory "work-snippets")))
 
-;; Visual indication for replace-regexp
-(use-package visual-regexp
-  :bind
-  ("C-x M-r" . vr/replace))
-
 ;; markdown
 (use-package markdown-mode
   :commands(markdown-mode gfm-mode)
@@ -344,7 +367,6 @@ copied from https://stackoverflow.com/a/1774949"
   `(diff-hl-insert ((t (:background "#223E32" :foreground ,cus-bg-color))))
   `(diff-hl-delete ((t (:background "#4E2E32" :foreground ,cus-bg-color)))))
   (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-pos)
-
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
 
