@@ -243,7 +243,6 @@
 (global-set-key (kbd "M-d") 'delete-word)
 (global-set-key (kbd "C-k") 'delete-line)
 
-
 ;; Scroll half of window instead of one window.
 (defun scroll-half-page-down ()
   "scroll down half the page"
@@ -258,6 +257,20 @@
 ;; Originally `scroll-up-command' and `scroll-down-command'.
 (global-set-key (kbd "C-v") 'scroll-half-page-up)
 (global-set-key (kbd "M-v") 'scroll-half-page-down)
+
+;; Swap content between windows
+(defun swap-buffers-in-windows ()
+  "Put the buffer from the selected window in next window, and vice versa
+copied from https://stackoverflow.com/a/1774949"
+  (interactive)
+  (let* ((this (selected-window))
+     (other (next-window))
+     (this-buffer (window-buffer this))
+     (other-buffer (window-buffer other)))
+    (set-window-buffer other this-buffer)
+    (set-window-buffer this other-buffer)))
+
+(global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
 
 
 ;;;; Specific packages setting
