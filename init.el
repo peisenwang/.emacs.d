@@ -96,9 +96,6 @@
 
 ;;;; General settings
 ;;   ================
-;; environment path
-(setenv "PATH" (concat "~/.local/bin" (getenv "PATH")))
-
 ;; Use command as meta and option as super for mac
 (setq mac-option-modifier 'super
       mac-command-modifier 'meta)
