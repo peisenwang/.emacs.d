@@ -40,9 +40,11 @@
 
 ;;;; Theme
 ;;   =====
+(defvar cus-bg-color "#222E32")
+
 (use-package monokai-theme
   :config
-  (setq monokai-background "#222E32")
+  (setq monokai-background cus-bg-color)
   (load-theme 'monokai t))
 
 ;; Make line warp arrows darker
@@ -332,6 +334,19 @@ copied from https://stackoverflow.com/a/1774949"
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
+
+;; Show edited lines at the side
+(use-package diff-hl
+  :ensure t
+  :config
+  (custom-set-faces
+  `(diff-hl-change ((t (:background "#3A4232" :foreground ,cus-bg-color))))
+  `(diff-hl-insert ((t (:background "#223E32" :foreground ,cus-bg-color))))
+  `(diff-hl-delete ((t (:background "#4E2E32" :foreground ,cus-bg-color)))))
+  (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-pos)
+
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode))
 
 
 ;;;; Customize
