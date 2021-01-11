@@ -367,6 +367,12 @@ copied from https://stackoverflow.com/a/1774949"
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
 
+;; js
+(use-package js-mode
+  :mode (("\\.js" . js-jsx-mode))
+  :config
+  (setq js-indent-level 2))
+
 
 ;;;; Customize
 ;;   =========
