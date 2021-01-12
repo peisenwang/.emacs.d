@@ -96,6 +96,7 @@
   ;; Previously binded to `set-fill-column'
   ("C-x f" . recentf-open-files))
 
+
 ;;;; General settings
 ;;   ================
 ;; Use command as meta and option as super for mac
@@ -376,7 +377,6 @@ under-scrolled."
 
 ;; Show edited lines at the side
 (use-package diff-hl
-  :ensure t
   :config
   (custom-set-faces
   `(diff-hl-change ((t (:background "#3A4232" :foreground ,cus-bg-color))))
