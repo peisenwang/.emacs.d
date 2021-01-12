@@ -87,12 +87,14 @@
 (setq create-lockfiles nil)
 
 ;; recentf
-(recentf-mode t)
-(setq recentf-max-saved-items 50
-      recentf-max-menu-items 50)
-;; Previously binded to `set-fill-column'
-(global-set-key (kbd "C-x f") 'recentf-open-files)
-
+(use-package recentf
+  :hook (after-init . recentf-mode)
+  :config
+  (setq recentf-max-saved-items 50
+	recentf-max-menu-items 50)
+  :bind
+  ;; Previously binded to `set-fill-column'
+  ("C-x f" . recentf-open-files))
 
 ;;;; General settings
 ;;   ================
