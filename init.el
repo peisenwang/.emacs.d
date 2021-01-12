@@ -223,6 +223,22 @@ copied from https://stackoverflow.com/a/1774949"
 ;; Set fill-column
 (setq-default fill-column 78)
 
+(defun fill-paragraph-scroll-right ()
+  "This function calls an extra `scroll-right' to force align the
+left of the text to the left of the window, as sometimes
+`fill-paragraph' leaves the text under-scrolled. "
+  (interactive)
+  (fill-paragraph)
+  (if (< (current-column) (window-body-width))
+      (let ((offset
+	     (- (current-column)
+		(/ (- (car (window-absolute-pixel-position))
+		      (car (window-absolute-body-pixel-edges)))
+		   (frame-char-width)))))
+	(if offset (scroll-right offset)))))
+
+(global-set-key (kbd "M-q") 'fill-paragraph-scroll-right)
+
 ;; Unfill paragraph
 (defun unfill-paragraph ()
   "Takes a multi-line paragraph and makes it into a single line of text."
@@ -230,7 +246,7 @@ copied from https://stackoverflow.com/a/1774949"
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
-;; Originally the same as M-q
+;; Originally the same as (originally) M-q
 (global-set-key (kbd "M-Q") 'unfill-paragraph)
 
 ;; Use visual-line-mode for org mode
