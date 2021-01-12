@@ -224,9 +224,10 @@ copied from https://stackoverflow.com/a/1774949"
 (setq-default fill-column 78)
 
 (defun fill-paragraph-scroll-right ()
-  "This function calls an extra `scroll-right' to force align the
-left of the text to the left of the window, as sometimes
-`fill-paragraph' leaves the text under-scrolled. "
+  "This function calls `fill-paragraph' with an extra
+`scroll-right' to force align the left of the text to the edge of
+the window, as sometimes `fill-paragraph' leaves the text
+under-scrolled."
   (interactive)
   (fill-paragraph)
   (if (< (current-column) (window-body-width))
