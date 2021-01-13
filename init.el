@@ -89,6 +89,10 @@
 ;; recentf
 (use-package recentf
   :hook (after-init . recentf-mode)
+  :init
+  ;; Recentf for some reason will clean opened tramp files when the system is
+  ;; offline. Disable auto cleanup temporarily to prevent that.
+  (setq recentf-auto-cleanup 'never)
   :config
   (setq recentf-max-saved-items 50
 	recentf-max-menu-items 50)
