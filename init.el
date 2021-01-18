@@ -43,10 +43,15 @@
 ;;   =====
 (defvar cus-bg-color "#222E32")
 
-(use-package monokai-theme
+;; (use-package monokai-theme
+;;   :config
+;;   (setq monokai-background cus-bg-color)
+;;   (load-theme 'monokai t))
+
+(use-package modus-themes
   :config
-  (setq monokai-background cus-bg-color)
-  (load-theme 'monokai t))
+  (add-to-list 'modus-themes-vivendi-colors `(bg-main . ,cus-bg-color))
+  (load-theme 'modus-vivendi t))
 
 ;; Make line warp arrows darker
 (defface fringe-dark
