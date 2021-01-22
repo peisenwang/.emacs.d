@@ -354,6 +354,12 @@ under-scrolled."
   ("C-x M-r" . vr/replace))
 
 
+;;;; Org mode
+(use-package org
+  :config
+  (setq org-startup-folded nil))
+
+
 ;;;; Package-specific settings
 ;;   =========================
 ;; elpy for python
