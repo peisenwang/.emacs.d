@@ -357,7 +357,14 @@ under-scrolled."
 ;;;; Org mode
 (use-package org
   :config
-  (setq org-startup-folded nil))
+  (setq org-startup-folded nil
+	org-hide-leading-stars t)
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "PEND(p)" "|" "DONE(d)")))
+  (setq org-todo-keyword-faces
+	'(("TODO" . "firebrick1")
+	  ("PEND" . "brown")
+          ("DONE" . "dark gray"))))
 
 
 ;;;; Package-specific settings
