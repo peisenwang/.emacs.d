@@ -62,6 +62,12 @@
 (set-fringe-bitmap-face 'left-curly-arrow 'fringe-dark)
 (set-fringe-bitmap-face 'right-curly-arrow 'fringe-dark)
 
+;; Extra theme for tramp, this "shall be loaded always as the last custom
+;; theme, because it inherits existing settings."
+(use-package tramp-theme
+  :config
+  (load-theme 'tramp t))
+
 
 ;;;; Backup and autosave
 ;;   ===================
@@ -80,7 +86,9 @@
 (setq auto-save-file-name-transforms
       `((".*" ,auto-save-file-directory t)))
 
-;; Tramp specific settings
+;; Tramp backup settings
+;; (add-to-list 'backup-directory-alist
+;;              (cons tramp-file-name-regexp nil))
 (setq tramp-backup-directory-alist backup-directory-alist)
 (setq tramp-auto-save-directory auto-save-file-directory)
 
@@ -354,20 +362,44 @@ under-scrolled."
   ("C-x M-r" . vr/replace))
 
 
+;;;; Version control
+;;   ===============
+;; I only use git currently
+(setq vc-handled-backends '(Git))
+
+;; No vc for remote files
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
+
+;; Show edited lines at the side
+(use-package diff-hl
+  :config
+  (custom-set-faces
+  `(diff-hl-change ((t (:background "#3A4232" :foreground ,cus-bg-color))))
+  `(diff-hl-insert ((t (:background "#223E32" :foreground ,cus-bg-color))))
+  `(diff-hl-delete ((t (:background "#4E2E32" :foreground ,cus-bg-color)))))
+  (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-pos)
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode))
+
+
 ;;;; Org mode
+;;   ========
 (use-package org
   :config
   (setq org-startup-folded nil
 	org-hide-leading-stars t)
   (setq org-todo-keywords
-	'((sequence "TODO(t)" "PEND(p)" "|" "DONE(d)")))
+	'((sequence "TODO" "PEND" "|" "DONE")))
   (setq org-todo-keyword-faces
 	'(("TODO" . "firebrick1")
 	  ("PEND" . "brown")
           ("DONE" . "dark gray"))))
 
 
-;;;; Package-specific settings
+;;;; Content-specific settings
 ;;   =========================
 ;; elpy for python
 (use-package elpy
@@ -396,17 +428,6 @@ under-scrolled."
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
-
-;; Show edited lines at the side
-(use-package diff-hl
-  :config
-  (custom-set-faces
-  `(diff-hl-change ((t (:background "#3A4232" :foreground ,cus-bg-color))))
-  `(diff-hl-insert ((t (:background "#223E32" :foreground ,cus-bg-color))))
-  `(diff-hl-delete ((t (:background "#4E2E32" :foreground ,cus-bg-color)))))
-  (setq diff-hl-fringe-bmp-function 'diff-hl-fringe-bmp-from-pos)
-  (global-diff-hl-mode)
-  (diff-hl-flydiff-mode))
 
 ;; js
 (use-package js-mode
