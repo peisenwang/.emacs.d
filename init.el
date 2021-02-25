@@ -288,6 +288,9 @@ under-scrolled."
 ;; Comment region
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
+;; Originally `mark-page', unbind because easy mistyping
+(global-unset-key (kbd "C-x C-p"))
+
 ;;;;; Navigating
 ;; Scrolling
 (setq scroll-margin 3
