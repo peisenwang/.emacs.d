@@ -166,6 +166,20 @@ copied from https://stackoverflow.com/a/1774949"
 ;; Auto load changed files
 (global-auto-revert-mode t)
 
+;; Rename opened file
+(defun rename-current-file ()
+  "Rename the current buffer and file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (message "Buffer is not visiting a file!")
+      (let ((new-name (read-file-name "New name: " filename)))
+        (cond
+         ((vc-backend filename) (vc-rename-file filename new-name))
+         (t
+          (rename-file filename new-name t)
+          (set-visited-file-name new-name t t)))))))
+
 ;; ido
 (use-package ido
   :demand
