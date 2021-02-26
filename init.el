@@ -288,7 +288,7 @@ under-scrolled."
 ;; Comment region
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-;; Originally `mark-page', unbind because easy mistyping
+;; Originally `mark-page', unbind for easy mis-triggering
 (global-unset-key (kbd "C-x C-p"))
 
 ;;;;; Navigating
@@ -434,7 +434,6 @@ under-scrolled."
 
 ;; js
 (use-package js-mode
-  :mode (("\\.js" . js-jsx-mode))
   :config
   (setq js-indent-level 2))
 
