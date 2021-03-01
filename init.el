@@ -448,6 +448,7 @@ under-scrolled."
 
 ;; js
 (use-package js-mode
+  :defer t
   :config
   (setq js-indent-level 2))
 
