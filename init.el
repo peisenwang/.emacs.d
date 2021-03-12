@@ -430,7 +430,10 @@ under-scrolled."
   :bind
   (:map elpy-mode-map
 	;; Overwrites `elpy-refactor-extract-function'
-	("C-c C-r f" . elpy-format-code)))
+	("C-c C-r f" . elpy-format-code))
+  (:map python-mode-map
+	("C-c C-," . python-indent-shift-left)
+	("C-c C-." . python-indent-shift-right)))
 
 ;; yasnippet
 (use-package yasnippet
