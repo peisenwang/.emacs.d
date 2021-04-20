@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: waitkey
+# key: waitkey
+# group: Debug
+# --
+cv2.waitKey(0)
