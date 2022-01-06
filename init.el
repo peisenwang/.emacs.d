@@ -102,10 +102,11 @@
 ;; recentf
 (use-package recentf
   :hook (after-init . recentf-mode)
-  :init
+  ;; :init
   ;; Recentf for some reason will clean opened tramp files when the system is
   ;; offline. Disable auto cleanup temporarily to prevent that.
-  (setq recentf-auto-cleanup 'never)
+  ;; commented as "Setting this variable directly does not take effect"
+  ;; (setq recentf-auto-cleanup 'never)
   :config
   (setq recentf-max-saved-items 50
 	recentf-max-menu-items 50)
@@ -219,9 +220,9 @@ copied from https://stackoverflow.com/a/1774949"
 (setq echo-keystrokes 0.1)
 
 ;;;;; Text area
-;; Easy toggle text size
-(global-set-key (kbd "C-=") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
+;; ;; Easy toggle text size
+;; (global-set-key (kbd "C-=") 'text-scale-increase)
+;; (global-set-key (kbd "C--") 'text-scale-decrease)
 
 
 ;;;; Text
@@ -285,6 +286,16 @@ under-scrolled."
 ;; Use visual-line-mode for org mode
 ;; (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
 ;; (add-hook 'org-mode-hook #'visual-line-mode)
+
+;;;;; Code folding
+(use-package hideshow
+  :init
+  (add-hook #'prog-mode-hook #'hs-minor-mode)
+  :diminish hs-minor-mode
+  :bind
+  (("C--" . hs-hide-all)
+   ("C-=" . hs-show-all)
+   ("<C-tab>" . hs-toggle-hiding)))
 
 
 ;;;; Editing control
