@@ -444,6 +444,7 @@ under-scrolled."
 	("C-c C-r f" . elpy-format-code))
   (:map python-mode-map
 	("C-c C-," . python-indent-shift-left)
+	;; C-. might be used by ibus, can be changed in ibus-setup
 	("C-c C-." . python-indent-shift-right)))
 
 ;; yasnippet
