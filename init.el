@@ -377,6 +377,9 @@ under-scrolled."
 (global-set-key (kbd "M-d") 'delete-word)
 (global-set-key (kbd "C-k") 'delete-line)
 
+;; Kill whole line when using C-k at the start of the line.
+(setq kill-whole-line t)
+
 ;; Replace selected text
 (delete-selection-mode t)
 
