@@ -33,6 +33,7 @@ ido.last
 /work-snippets
 
 # eshell
-/eshell
+/eshell/history
+/eshell/lastdir
 
 /transient
