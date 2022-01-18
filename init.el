@@ -377,6 +377,9 @@ under-scrolled."
 (global-set-key (kbd "M-d") 'delete-word)
 (global-set-key (kbd "C-k") 'delete-line)
 
+;; Replace selected text
+(delete-selection-mode t)
+
 ;;;;; Replacing
 ;; Set key-binding for replacing, originally binded by ido
 (global-set-key (kbd "C-x C-r") 'replace-string)
