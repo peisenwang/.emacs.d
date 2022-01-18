@@ -339,6 +339,42 @@ under-scrolled."
 (global-set-key (kbd "C-v") 'scroll-half-page-up)
 (global-set-key (kbd "M-v") 'scroll-half-page-down)
 
+;;;;; Selecting
+;; Replace selected text
+(delete-selection-mode t)
+
+;; Cut region or line in one command
+(defun slick-cut (beg end)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (list (line-beginning-position) (line-beginning-position 2)))))
+
+(advice-add 'kill-region :before #'slick-cut)
+
+;; Copy region or line in one command
+(defun slick-copy (beg end)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (message "Copied line")
+     (list (line-beginning-position) (line-beginning-position 2)))))
+
+(advice-add 'kill-ring-save :before #'slick-copy)
+
+;; Comment region or line in one command
+(defun comment-or-uncomment-region-or-line ()
+  "`comment-or-uncomment-region' or comment the current line if
+there's no active region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
+
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
+
 ;;;;; Deleting
 ;; Larger kill ring size
 (setq kill-ring-max 500)
@@ -380,9 +416,6 @@ under-scrolled."
 ;; Kill whole line when using C-k at the start of the line.
 (setq kill-whole-line t)
 
-;; Replace selected text
-(delete-selection-mode t)
-
 ;;;;; Replacing
 ;; Set key-binding for replacing, originally binded by ido
 (global-set-key (kbd "C-x C-r") 'replace-string)
@@ -391,20 +424,6 @@ under-scrolled."
 (use-package visual-regexp
   :bind
   ("C-x M-r" . vr/replace))
-
-;;;;; Commenting
-;; Comment region or line in one command
-(defun comment-or-uncomment-region-or-line ()
-  "`comment-or-uncomment-region' or comment the current line if
-there's no active region."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning) end (region-end))
-      (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
-
-(global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
 
 
 ;;;; Version control
