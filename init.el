@@ -310,19 +310,6 @@ under-scrolled."
 ;; Enable type return when holding control
 (global-set-key (kbd "<C-return>") (kbd "RET"))
 
-;; Comment region or line in one command
-(defun comment-or-uncomment-region-or-line ()
-  "`comment-or-uncomment-region' or comment the current line if
-there's no active region."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning) end (region-end))
-      (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
-
-(global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
-
 ;; Originally `mark-page', unbind for easy mis-triggering
 (global-unset-key (kbd "C-x C-p"))
 
@@ -398,6 +385,20 @@ there's no active region."
 (use-package visual-regexp
   :bind
   ("C-x M-r" . vr/replace))
+
+;;;;; Commenting
+;; Comment region or line in one command
+(defun comment-or-uncomment-region-or-line ()
+  "`comment-or-uncomment-region' or comment the current line if
+there's no active region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
+
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region-or-line)
 
 
 ;;;; Version control
