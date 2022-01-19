@@ -110,6 +110,8 @@
   :config
   (setq recentf-max-saved-items 50
 	recentf-max-menu-items 50)
+  (add-to-list
+   'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
   :bind
   ;; Previously binded to `set-fill-column'
   ("C-x f" . recentf-open-files))
