@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: np
+# key: np
+# group: Import
+# condition: (looking-back "^np" nil)
+# --
+import numpy as np
