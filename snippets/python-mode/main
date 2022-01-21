@@ -2,7 +2,7 @@
 # name: main
 # key: main
 # group: Definitions
-# condition: (looking-back "^tqdm" nil)
+# condition: (looking-back "^main" nil)
 # --
 if __name__ == '__main__':
    ${1:main()}
