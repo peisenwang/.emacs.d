@@ -112,6 +112,14 @@
 	recentf-max-menu-items 50)
   (add-to-list
    'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
+  (setq recentf-keep '(recentf-keep-default-predicate file-remote-p))
+  ;; From tramp user manual
+  (remove-hook
+   'tramp-cleanup-connection-hook
+   #'tramp-recentf-cleanup)
+  (remove-hook
+   'tramp-cleanup-all-connections-hook
+   #'tramp-recentf-cleanup-all)
   :bind
   ;; Previously binded to `set-fill-column'
   ("C-x f" . recentf-open-files))
