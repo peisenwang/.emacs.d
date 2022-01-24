@@ -29,8 +29,8 @@
 # ido
 ido.last
 
-# Work snippets
-/work-snippets
+# Work-specific configs
+/work
 
 # eshell
 /eshell/history

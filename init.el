@@ -62,8 +62,8 @@
 (set-fringe-bitmap-face 'left-curly-arrow 'fringe-dark)
 (set-fringe-bitmap-face 'right-curly-arrow 'fringe-dark)
 
-;; Extra theme for tramp, this "shall be loaded always as the last custom
-;; theme, because it inherits existing settings."
+;; Extra theme for tramp to show address in mode line, this "shall be loaded
+;; always as the last custom theme, because it inherits existing settings."
 (use-package tramp-theme
   :config
   (load-theme 'tramp t))
@@ -433,12 +433,6 @@ there's no active region."
 ;; I only use git currently
 (setq vc-handled-backends '(Git))
 
-;; No vc for remote files
-(setq vc-ignore-dir-regexp
-      (format "\\(%s\\)\\|\\(%s\\)"
-              vc-ignore-dir-regexp
-              tramp-file-name-regexp))
-
 ;; Show edited lines at the side
 (use-package diff-hl
   :config
@@ -487,10 +481,7 @@ there's no active region."
 
 ;; yasnippet
 (use-package yasnippet
-  :defer t
-  :config
-  (add-to-list 'yas-snippet-dirs
-	       (concat user-emacs-directory "work-snippets")))
+  :defer t)
 
 ;; markdown
 (use-package markdown-mode
@@ -505,6 +496,11 @@ there's no active region."
   :mode (("\\.js" . js-jsx-mode))
   :init
   (setq js-indent-level 2))
+
+
+;;;; Load work-specific configs
+;; (file-exists-p (concat user-emacs-directory "work"))
+(load (concat user-emacs-directory "work/config.el"))
 
 
 ;;;; Customize
