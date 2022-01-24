@@ -1,6 +1,6 @@
 ;;; Emacs configuration
 ;;  ===================
-;; Copyright 2016 - 2021 Peisen Wang
+;; Copyright 2016 - 2022 Peisen Wang
 ;;
 ;; Use "grep -E '^;{3,}' init.el" to show the outline of this file.
 
