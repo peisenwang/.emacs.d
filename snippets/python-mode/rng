@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: rng
+# key: rng
+# group: Definitions
+# condition: (looking-back "^ *rng" nil)
+# --
+rng = np.random.default_rng()
