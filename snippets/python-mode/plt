@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: plt
+# key: plt
+# group: Import
+# condition: (looking-back "^plt" nil)
+# --
+import matplotlib.pyplot as plt
