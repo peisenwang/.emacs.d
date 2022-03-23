@@ -100,6 +100,20 @@
 (setq create-lockfiles nil)
 
 ;; recentf
+(defun recentf-open-files-without-indent (&optional files buffer-name)
+  "Similar to `recentf-open-files' without indent before items or insturctions"
+  (interactive)
+  (unless (or files recentf-list)
+    (error "There is no recent file to open"))
+  (recentf-dialog (or buffer-name (format "*%s*" recentf-menu-title))
+    ;; Use a L&F that looks like the recentf menu.
+    (tree-widget-set-theme "folder")
+    (apply 'widget-create
+           `(group
+             :format "\n%v\n"
+             ,@(recentf-open-files-items (or files recentf-list))))
+    (recentf-dialog-goto-first 'link)))
+
 (use-package recentf
   :hook (after-init . recentf-mode)
   ;; :init
@@ -110,6 +124,8 @@
   :config
   (setq recentf-max-saved-items 50
 	recentf-max-menu-items 50)
+  ;; Don't show leading numbers as I never use them
+  (setq recentf-show-file-shortcuts-flag nil)
   (add-to-list
    'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
   (setq recentf-keep '(recentf-keep-default-predicate file-remote-p))
@@ -122,7 +138,7 @@
    #'tramp-recentf-cleanup-all)
   :bind
   ;; Previously binded to `set-fill-column'
-  ("C-x f" . recentf-open-files))
+  ("C-x f" . recentf-open-files-without-indent))
 
 
 ;;;; General settings
