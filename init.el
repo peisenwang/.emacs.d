@@ -233,7 +233,7 @@ copied from https://stackoverflow.com/a/1774949"
 
 ;;;;; Mode line & echo area
 ;; No type full yes
-(defalias 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 
 ;; Fast show prefix keys in echo area
 (setq echo-keystrokes 0.1)
