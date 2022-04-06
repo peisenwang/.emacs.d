@@ -37,3 +37,6 @@ ido.last
 /eshell/lastdir
 
 /transient
+
+# eln-cache
+/eln-cache
