@@ -138,7 +138,9 @@
 ;;   ==========================
 ;; Use "C-x C-o" instead of "C-x o" to switch windows
 ;; (originally `delete-blank-lines')
-(global-set-key (kbd "C-x C-o") 'other-window)
+(global-set-key (kbd "C-x C-o") 'ace-window)
+;; Use "C-M-o" for switching windows too (originally `split-line')
+(global-set-key (kbd "C-M-o") 'ace-window)
 
 ;; Use "C-q" to switch window like what I do in tmux
 ;; (originally `quoted-insert')
