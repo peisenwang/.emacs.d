@@ -45,7 +45,7 @@
   (add-to-list 'modus-themes-vivendi-colors `(bg-main . ,cus-bg-color))
   (load-theme 'modus-vivendi t))
 
-;; Make line warp arrows darker
+;; Make line wrap arrows darker
 (defface fringe-dark
   '((t (:foreground "#525252")))
   "Face for fringe bitmaps."
@@ -146,7 +146,8 @@
 ;; (originally `delete-blank-lines')
 (global-set-key (kbd "C-x C-o") 'other-window)
 
-;; Use "C-q" to switch window like what I do in tmux (originally `quoted-insert')
+;; Use "C-q" to switch window like what I do in tmux
+;; (originally `quoted-insert')
 (global-unset-key (kbd "C-q"))
 (global-set-key (kbd "C-q C-p") 'windmove-up)
 (global-set-key (kbd "C-q C-n") 'windmove-down)
