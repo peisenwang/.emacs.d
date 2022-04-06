@@ -54,12 +54,6 @@
 (set-fringe-bitmap-face 'left-curly-arrow 'fringe-dark)
 (set-fringe-bitmap-face 'right-curly-arrow 'fringe-dark)
 
-;; Extra theme for tramp to show address in mode line, this "shall be loaded
-;; always as the last custom theme, because it inherits existing settings."
-(use-package tramp-theme
-  :config
-  (load-theme 'tramp t))
-
 
 ;;;; Backup and autosave
 ;;   ===================
@@ -232,6 +226,31 @@ copied from https://stackoverflow.com/a/1774949"
   (add-to-list 'linum-disabled-modes-list 'ansi-term))
 
 ;;;;; Mode line & echo area
+;; Show hostname in buffer name when accessing remote files (as "tramp-theme"
+;; does).
+;; Modified from "How to get host indication in the mode line?" section in
+;; https://gnu.huihoo.org/emacs/manual/tramp/Frequently-Asked-Questions.html
+(defconst mode-line-buffer-identification-with-remote
+  (list
+   '(:eval
+     (let ((host-name (file-remote-p default-directory 'host)))
+       (concat
+	(if host-name (concat host-name ": ")
+	  ""))))
+   "%12b"))
+
+(setq-default
+ mode-line-buffer-identification
+ mode-line-buffer-identification-with-remote)
+
+(add-hook
+ 'dired-mode-hook
+ (lambda ()
+   (setq
+    mode-line-buffer-identification
+    mode-line-buffer-identification-with-remote)))
+
+
 ;; No type full yes
 (setq use-short-answers t)
 
