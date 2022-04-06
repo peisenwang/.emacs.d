@@ -11,18 +11,10 @@
 
 ;;;; Startup and gui
 ;;   ===============
-(setq inhibit-startup-message t
-      initial-scratch-message nil)
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
+;; This part is moved to 'early-init.el' to speed up loading.
 
-;; Setup window
-(setq default-frame-alist '((fullscreen . fullheight) (width . 170)))
+;; Split window after gui init
 (split-window-horizontally)
-
-;; Set title
-(setq frame-title-format '("%f"))
 
 
 ;;;; Packages general setting
