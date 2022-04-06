@@ -146,10 +146,14 @@
 (global-set-key (kbd "C-q C-p") 'windmove-up)
 (global-set-key (kbd "C-q C-n") 'windmove-down)
 (global-set-key (kbd "C-q C-f") 'windmove-right)
+(global-set-key (kbd "C-q C-]") 'windmove-right)
 (global-set-key (kbd "C-q C-b") 'windmove-left)
+(global-set-key (kbd "C-q C-[") 'windmove-left)
 (global-set-key (kbd "C-q C-o") 'other-window)
 (global-set-key (kbd "C-q -") 'split-window-below)
 (global-set-key (kbd "C-q |") 'split-window-right)
+;; Use "C-q C-q" for `quoted-insert' instead
+(global-set-key (kbd "C-q C-q") 'quoted-insert)
 
 ;; Swap content between windows
 (defun swap-buffers-in-windows ()
