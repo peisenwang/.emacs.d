@@ -535,10 +535,15 @@ there's no active region."
 
 ;; js
 (use-package js-mode
-  :defer t
   :mode (("\\.js" . js-jsx-mode))
   :init
   (setq js-indent-level 2))
+
+;; epub
+(use-package nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :init
+  (add-to-list 'linum-disabled-modes-list 'nov-mode))
 
 
 ;;;; Load work-specific configs
