@@ -11,7 +11,7 @@
 
 ;;;; Startup and gui
 ;;   ===============
-;; This part is moved to 'early-init.el' to speed up loading.
+;; This part is moved to early-init.el to speed up loading.
 
 ;; Split window after gui init
 (split-window-horizontally)
@@ -87,7 +87,8 @@
 
 ;; recentf
 (defun recentf-open-files-without-indent (&optional files buffer-name)
-  "Similar to `recentf-open-files' without indent before items or insturctions"
+  "Similar to `recentf-open-files' without instructions or indent
+before items"
   (interactive)
   (unless (or files recentf-list)
     (error "There is no recent file to open"))
@@ -231,9 +232,9 @@ copied from https://stackoverflow.com/a/1774949"
   :config
   (add-to-list 'linum-disabled-modes-list 'ansi-term))
 
-;;;;; Mode line & echo area
+;;;;; Mode line
 ;; Show hostname in buffer name when accessing remote files (as "tramp-theme"
-;; does).
+;; does)
 ;; Modified from "How to get host indication in the mode line?" section in
 ;; https://gnu.huihoo.org/emacs/manual/tramp/Frequently-Asked-Questions.html
 (defconst mode-line-buffer-identification-with-remote
@@ -256,7 +257,7 @@ copied from https://stackoverflow.com/a/1774949"
     mode-line-buffer-identification
     mode-line-buffer-identification-with-remote)))
 
-
+;;;;; Echo area
 ;; No type full yes
 (setq use-short-answers t)
 
