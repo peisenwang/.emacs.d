@@ -39,6 +39,7 @@
   :init
   (modus-themes-load-themes)
   (add-to-list 'modus-themes-vivendi-colors `(bg-main . ,cus-bg-color))
+  (setq modus-themes-mode-line '(borderless accented))
   :config
   (modus-themes-load-vivendi))
 
