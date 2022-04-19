@@ -547,11 +547,12 @@ there's no active region."
 
 
 ;;;; Load work-specific configs
-;; (file-exists-p (concat user-emacs-directory "work"))
-(load (concat user-emacs-directory "work/config.el"))
+(if (file-exists-p (concat user-emacs-directory "work"))
+    (load (concat user-emacs-directory "work/config.el")))
 
 
 ;;;; Customize
 ;;   =========
 (setq custom-file (concat user-emacs-directory "custom.el"))
-(load-file custom-file)
+(if (file-exists-p custom-file)
+    (load-file custom-file))
