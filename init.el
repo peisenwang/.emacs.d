@@ -35,15 +35,12 @@
 ;;   =====
 (defvar cus-bg-color "#222E32")
 
-;; (use-package monokai-theme
-;;   :config
-;;   (setq monokai-background cus-bg-color)
-;;   (load-theme 'monokai t))
-
 (use-package modus-themes
-  :config
+  :init
+  (modus-themes-load-themes)
   (add-to-list 'modus-themes-vivendi-colors `(bg-main . ,cus-bg-color))
-  (load-theme 'modus-vivendi t))
+  :config
+  (modus-themes-load-vivendi))
 
 ;; Make line wrap arrows darker
 (defface fringe-dark
