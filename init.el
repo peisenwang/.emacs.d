@@ -36,6 +36,7 @@
 (defvar cus-bg-color "#222E32")
 
 (use-package modus-themes
+  :ensure t
   :init
   (modus-themes-load-themes)
   (add-to-list 'modus-themes-vivendi-colors `(bg-main . ,cus-bg-color))
@@ -136,6 +137,7 @@ before items"
 ;;;; Window & buffer management
 ;;   ==========================
 (use-package ace-window
+  :ensure t
   :bind
   ;; Use "C-x C-o" instead of "C-x o" to switch windows
   ;; (originally `delete-blank-lines')
@@ -227,6 +229,7 @@ copied from https://stackoverflow.com/a/1774949"
 
 ;; Set line numbers with certain modes as exceptions
 (use-package linum-off
+  :ensure t
   :init
   (global-linum-mode t)
   :config
@@ -293,6 +296,7 @@ copied from https://stackoverflow.com/a/1774949"
 
 ;; Auto delete trailing whitespaces.
 (use-package ws-butler
+  :ensure t
   :hook (prog-mode . ws-butler-mode)
   :config
   (setq ws-butler-keep-whitespace-before-point nil))
@@ -478,6 +482,7 @@ there's no active region."
 
 ;; Show edited lines at the side
 (use-package diff-hl
+  :ensure t
   :config
   (custom-set-faces
   `(diff-hl-change ((t (:background "#3A4232" :foreground ,cus-bg-color))))
