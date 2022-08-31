@@ -160,6 +160,9 @@ before items"
 ;; Use "C-q C-q" for `quoted-insert' instead
 (global-set-key (kbd "C-q C-q") 'quoted-insert)
 
+;; Wrap around when moving around windows
+(setq windmove-wrap-around t)
+
 ;; Swap content between windows
 (defun swap-buffers-in-windows ()
   "Put the buffer from the selected window in next window, and vice versa
