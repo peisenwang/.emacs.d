@@ -136,14 +136,15 @@ before items"
 
 ;;;; Window & buffer management
 ;;   ==========================
-(use-package ace-window
-  :ensure t
-  :bind
-  ;; Use "C-x C-o" instead of "C-x o" to switch windows
-  ;; (originally `delete-blank-lines')
-  (("C-x C-o" . ace-window)
-   ;; Use "C-M-o" for switching windows too (originally `split-line')
-   ("C-M-o" . ace-window)))
+;; Commented as I never got to use this
+;; (use-package ace-window
+;;   :ensure t
+;;   :bind
+;;   ;; Use "C-x C-o" instead of "C-x o" to switch windows
+;;   ;; (originally `delete-blank-lines')
+;;   (("C-x C-o" . ace-window)
+;;    ;; Use "C-M-o" for switching windows too (originally `split-line')
+;;    ("C-M-o" . ace-window)))
 
 ;; Use "C-q" to switch window like what I do in tmux
 ;; (originally `quoted-insert')
@@ -163,19 +164,20 @@ before items"
 ;; Wrap around when moving around windows
 (setq windmove-wrap-around t)
 
-;; Swap content between windows
-(defun swap-buffers-in-windows ()
-  "Put the buffer from the selected window in next window, and vice versa
-copied from https://stackoverflow.com/a/1774949"
-  (interactive)
-  (let* ((this (selected-window))
-     (other (next-window))
-     (this-buffer (window-buffer this))
-     (other-buffer (window-buffer other)))
-    (set-window-buffer other this-buffer)
-    (set-window-buffer this other-buffer)))
-
-(global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
+;; Commented as I never used this
+;; ;; Swap content between windows
+;; (defun swap-buffers-in-windows ()
+;;   "Put the buffer from the selected window in next window, and vice versa
+;; copied from https://stackoverflow.com/a/1774949"
+;;   (interactive)
+;;   (let* ((this (selected-window))
+;;      (other (next-window))
+;;      (this-buffer (window-buffer this))
+;;      (other-buffer (window-buffer other)))
+;;     (set-window-buffer other this-buffer)
+;;     (set-window-buffer this other-buffer)))
+;;
+;; (global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
 
 ;; Swap "C-x b" and "C-x C-b" for buffer switching
 (global-set-key (kbd "C-x b") 'list-buffers)
@@ -183,6 +185,27 @@ copied from https://stackoverflow.com/a/1774949"
 
 ;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
+
+
+;;;; Side bar
+;;   ========
+(use-package dired-sidebar
+  :ensure t
+  :after (linum-off)
+  :init
+  (add-to-list 'linum-disabled-modes-list 'dired-sidebar-mode)
+  (setq dired-sidebar-use-term-integration t
+	dired-sidebar-should-follow-file t
+	dired-sidebar-follow-file-idle-delay 1.0
+	dired-sidebar-use-one-instance t)
+  (add-hook 'dired-sidebar-mode-hook
+            (lambda ()
+              (unless (file-remote-p default-directory)
+                (auto-revert-mode))))
+  (dired-sidebar-show-sidebar)
+  :config
+  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+  (push 'rotate-windows dired-sidebar-toggle-hidden-commands))
 
 
 ;;;; Editing interface
@@ -237,6 +260,7 @@ copied from https://stackoverflow.com/a/1774949"
   (global-linum-mode t)
   :config
   (add-to-list 'linum-disabled-modes-list 'ansi-term))
+
 
 ;;;;; Mode line
 ;; Show hostname in buffer name when accessing remote files (as "tramp-theme"
@@ -550,6 +574,7 @@ there's no active region."
 ;; epub
 (use-package nov
   :mode ("\\.epub\\'" . nov-mode)
+  :after (linum-off)
   :init
   (add-to-list 'linum-disabled-modes-list 'nov-mode))
 

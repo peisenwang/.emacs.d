@@ -12,7 +12,8 @@
       initial-scratch-message nil)
 
 ;; Setup window
-(setq default-frame-alist '((fullscreen . fullheight) (width . 170)))
+;; Set window width to 85 * 2 (two windows) + 35 (sidebar) = 205
+(setq default-frame-alist '((fullscreen . fullheight) (width . 205)))
 
 ;; Set title
 (setq frame-title-format '("%f"))
