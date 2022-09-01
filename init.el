@@ -123,8 +123,8 @@ before items"
    'tramp-cleanup-all-connections-hook
    #'tramp-recentf-cleanup-all)
   :bind
-  ;; Previously binded to `set-fill-column'
-  ("C-x f" . recentf-open-files-without-indent))
+  ;; Previous binded to `other-window'
+  ("C-x C-o" . recentf-open-files-without-indent))
 
 
 ;;;; General settings
@@ -146,6 +146,10 @@ before items"
 ;;    ;; Use "C-M-o" for switching windows too (originally `split-line')
 ;;    ("C-M-o" . ace-window)))
 
+;; Switch window with simpler key binding
+;; Previous binded to `open-line'
+(global-set-key (kbd "C-o") 'other-window)
+
 ;; Use "C-q" to switch window like what I do in tmux
 ;; (originally `quoted-insert')
 (global-unset-key (kbd "C-q"))
@@ -158,26 +162,30 @@ before items"
 (global-set-key (kbd "C-q C-o") 'other-window)
 (global-set-key (kbd "C-q -") 'split-window-below)
 (global-set-key (kbd "C-q |") 'split-window-right)
+(global-set-key (kbd "C-q 0") 'delete-window)
 ;; Use "C-q C-q" for `quoted-insert' instead
 (global-set-key (kbd "C-q C-q") 'quoted-insert)
+
+;; Even simpler moving between windows
+(global-set-key (kbd "M-]") 'windmove-right)
+(global-set-key (kbd "M-[") 'windmove-left)
 
 ;; Wrap around when moving around windows
 (setq windmove-wrap-around t)
 
-;; Commented as I never used this
-;; ;; Swap content between windows
-;; (defun swap-buffers-in-windows ()
-;;   "Put the buffer from the selected window in next window, and vice versa
-;; copied from https://stackoverflow.com/a/1774949"
-;;   (interactive)
-;;   (let* ((this (selected-window))
-;;      (other (next-window))
-;;      (this-buffer (window-buffer this))
-;;      (other-buffer (window-buffer other)))
-;;     (set-window-buffer other this-buffer)
-;;     (set-window-buffer this other-buffer)))
-;;
-;; (global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
+;; Swap content between windows
+(defun swap-buffers-in-windows ()
+  "Put the buffer from the selected window in next window, and vice versa
+copied from https://stackoverflow.com/a/1774949"
+  (interactive)
+  (let* ((this (selected-window))
+     (other (next-window))
+     (this-buffer (window-buffer this))
+     (other-buffer (window-buffer other)))
+    (set-window-buffer other this-buffer)
+    (set-window-buffer this other-buffer)))
+
+(global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
 
 ;; Swap "C-x b" and "C-x C-b" for buffer switching
 (global-set-key (kbd "C-x b") 'list-buffers)
@@ -185,6 +193,8 @@ before items"
 
 ;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
+;; ;; Kill current buffer with "M-k" (originally `kill-sentence')
+;; (global-set-key (kbd "M-k") 'kill-this-buffer)
 
 
 ;;;; Side bar
@@ -356,7 +366,7 @@ under-scrolled."
   (let ((fill-column (point-max)))
     (fill-paragraph nil)))
 
-;; Originally the same as (originally) M-q
+;; Originally the same as (originally) "M-q"
 (global-set-key (kbd "M-Q") 'unfill-paragraph)
 
 ;; Use visual-line-mode for org mode
@@ -378,10 +388,13 @@ under-scrolled."
 ;;   ===============
 
 ;;;;; General editing key-bindings
-;; Create nextline for "C-o" (originally `open-line')
-(global-set-key (kbd "C-o") (kbd "C-e C-M"))
-;; Create a previous line for "C-j" (originally `eval-print-last-sexp')
-(global-set-key (kbd "C-j") (kbd "C-a C-M C-p"))
+;; Create new line at next line and move to it (originally
+;; `electric-newline-and-maybe-indent')
+(global-set-key (kbd "C-j") (kbd "C-e C-M"))
+;; Create new line at previous line and move to it (originally
+;; `default-indent-newline' binded to both)
+(global-set-key (kbd "M-j") (kbd "C-a C-M C-p"))
+(global-set-key (kbd "C-M-j") (kbd "C-a C-M C-p"))
 
 ;; Enable type return when holding control
 (global-set-key (kbd "<C-return>") (kbd "RET"))
