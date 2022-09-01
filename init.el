@@ -206,7 +206,6 @@ copied from https://stackoverflow.com/a/1774949"
   (add-to-list 'linum-disabled-modes-list 'dired-sidebar-mode)
   (setq dired-sidebar-use-term-integration t
 	dired-sidebar-should-follow-file t
-	dired-sidebar-follow-file-idle-delay 1.0
 	dired-sidebar-use-one-instance t)
   (add-hook 'dired-sidebar-mode-hook
             (lambda ()
@@ -215,7 +214,18 @@ copied from https://stackoverflow.com/a/1774949"
   (dired-sidebar-show-sidebar)
   :config
   (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-  (push 'rotate-windows dired-sidebar-toggle-hidden-commands))
+  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+  (push 'other-window dired-sidebar-toggle-hidden-commands)
+  (defun sidebar-root-exclude-tramp (sidebar-root-fun &rest args)
+    "Exclude tramp file from calling `project' in
+`dired-sidebar-sidebar-root' to prevent the repeating error
+of (remote-file-error 'Forbidden reentrant call of Tramp')
+reported in `dired-sidebar-follow-file'."
+    (if (file-remote-p default-directory)
+	default-directory
+      (apply sidebar-root-fun args)))
+  (advice-add 'dired-sidebar-sidebar-root :around
+	      #'sidebar-root-exclude-tramp))
 
 
 ;;;; Editing interface
