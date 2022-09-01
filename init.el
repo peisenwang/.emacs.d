@@ -202,6 +202,8 @@ copied from https://stackoverflow.com/a/1774949"
 (use-package dired-sidebar
   :ensure t
   :after (linum-off)
+  :bind (:map dired-sidebar-mode-map
+	      ("C-o" . nil))
   :init
   (add-to-list 'linum-disabled-modes-list 'dired-sidebar-mode)
   (setq dired-sidebar-use-term-integration t
