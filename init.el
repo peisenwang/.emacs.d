@@ -112,8 +112,10 @@ before items"
 	recentf-max-menu-items 50)
   ;; Don't show leading numbers as I never use them
   (setq recentf-show-file-shortcuts-flag nil)
-  (add-to-list
-   'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
+  ;; Sometimes package update results in visiting internal files, use the
+  ;; following to exclude package files.
+  ;; (add-to-list
+  ;;  'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
   (setq recentf-keep '(recentf-keep-default-predicate file-remote-p))
   ;; From tramp user manual
   (remove-hook
@@ -215,9 +217,13 @@ copied from https://stackoverflow.com/a/1774949"
                 (auto-revert-mode))))
   (dired-sidebar-show-sidebar)
   :config
+  ;; Adding the following commands seems only to take effect after
+  ;; dired-sidebar switch to another directory other than the default one
+  ;; after start.
   (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
   (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
   (push 'other-window dired-sidebar-toggle-hidden-commands)
+
   (defun sidebar-root-exclude-tramp (sidebar-root-fun &rest args)
     "Exclude tramp file from calling `project' in
 `dired-sidebar-sidebar-root' to prevent the repeating error
