@@ -43,3 +43,6 @@ ido.last
 
 # nov mode
 nov-places
+
+# Org-roam db and possibly others
+*.db
