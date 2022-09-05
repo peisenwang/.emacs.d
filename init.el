@@ -203,6 +203,7 @@ copied from https://stackoverflow.com/a/1774949"
 ;;   ========
 (use-package dired-sidebar
   :ensure t
+  :load-path "~/.emacs.d/lib/dired-sidebar"
   :after (linum-off)
   :bind (:map dired-sidebar-mode-map
 	      ("C-o" . nil))
@@ -210,22 +211,14 @@ copied from https://stackoverflow.com/a/1774949"
   (add-to-list 'linum-disabled-modes-list 'dired-sidebar-mode)
   (setq dired-sidebar-use-term-integration t
 	dired-sidebar-should-follow-file t
-	dired-sidebar-use-one-instance t)
-  (add-hook 'dired-sidebar-mode-hook
-            (lambda ()
-              (unless (file-remote-p default-directory)
-                (auto-revert-mode))))
+	dired-sidebar-use-one-instance t
+	dired-sidebar-no-other-window t)
   (dired-sidebar-show-sidebar)
   :config
-  ;; Adding the following commands seems only to take effect after
-  ;; dired-sidebar switch to another directory other than the default one
-  ;; after start.
-  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
-  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
-  (push 'other-window dired-sidebar-toggle-hidden-commands)
-
   (defun sidebar-root-exclude-tramp (sidebar-root-fun &rest args)
-    "Exclude tramp file from calling `project' in
+    "Show default directory for tramp files.
+
+Exclude tramp file from calling `project' in
 `dired-sidebar-sidebar-root' to prevent the repeating error
 of (remote-file-error 'Forbidden reentrant call of Tramp')
 reported in `dired-sidebar-follow-file'."
@@ -234,6 +227,23 @@ reported in `dired-sidebar-follow-file'."
       (apply sidebar-root-fun args)))
   (advice-add 'dired-sidebar-sidebar-root :around
 	      #'sidebar-root-exclude-tramp))
+
+(use-package ibuffer-sidebar
+  :ensure t
+  :load-path "~/.emacs.d/lib/ibuffer-sidebar"
+  :after (linum-off)
+  :bind (:map ibuffer-sidebar-mode-map
+	      ("C-o" . nil))
+  :init
+  (add-to-list 'linum-disabled-modes-list 'ibuffer-sidebar-mode)
+  (setq ibuffer-sidebar-no-other-window t)
+  (ibuffer-sidebar-show-sidebar))
+
+(defun sidebar-toggle ()
+  "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
+  (interactive)
+  (dired-sidebar-toggle-sidebar)
+  (ibuffer-sidebar-toggle-sidebar))
 
 
 ;;;; Editing interface
