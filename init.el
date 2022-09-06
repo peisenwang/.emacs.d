@@ -202,19 +202,17 @@ copied from https://stackoverflow.com/a/1774949"
 ;;;; Side bar
 ;;   ========
 (use-package dired-sidebar
-  :ensure t
+  :defer t
   :load-path "~/.emacs.d/lib/dired-sidebar"
   :after (linum-off)
   :bind (:map dired-sidebar-mode-map
 	      ("C-o" . nil))
-  :init
+  :config
   (add-to-list 'linum-disabled-modes-list 'dired-sidebar-mode)
   (setq dired-sidebar-use-term-integration t
 	dired-sidebar-should-follow-file t
 	dired-sidebar-use-one-instance t
 	dired-sidebar-no-other-window t)
-  (dired-sidebar-show-sidebar)
-  :config
   (defun sidebar-root-exclude-tramp (sidebar-root-fun &rest args)
     "Show default directory for tramp files.
 
@@ -229,15 +227,14 @@ reported in `dired-sidebar-follow-file'."
 	      #'sidebar-root-exclude-tramp))
 
 (use-package ibuffer-sidebar
-  :ensure t
+  :defer t
   :load-path "~/.emacs.d/lib/ibuffer-sidebar"
   :after (linum-off)
   :bind (:map ibuffer-sidebar-mode-map
 	      ("C-o" . nil))
-  :init
+  :config
   (add-to-list 'linum-disabled-modes-list 'ibuffer-sidebar-mode)
-  (setq ibuffer-sidebar-no-other-window t)
-  (ibuffer-sidebar-show-sidebar))
+  (setq ibuffer-sidebar-no-other-window t))
 
 (defun sidebar-toggle ()
   "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
