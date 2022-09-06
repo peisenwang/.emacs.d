@@ -562,6 +562,8 @@ there's no active region."
 ;;   ========
 (use-package org
   :config
+  ;; Originally `org-return-and-maybe-indent' in `org-mode-map'.
+  (unbind-key "C-j" org-mode-map)
   (setq org-startup-folded nil
 	org-hide-leading-stars t)
   (setq org-todo-keywords
