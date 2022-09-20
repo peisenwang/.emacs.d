@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: breakpoint()
+# key: b
+# group: Debug
+# condition: (looking-back "^ *b" nil)
+# --
+breakpoint()
