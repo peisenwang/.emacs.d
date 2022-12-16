@@ -33,16 +33,22 @@
 
 ;;;; Theme
 ;;   =====
-(defvar cus-bg-color "#222E32")
+;; Fallback value
+(setq cus-bg-color "#222E32")
 
 (use-package modus-themes
   :ensure t
   :init
   (modus-themes-load-themes)
+  ;; Set background color
+  (setq cus-bg-color
+	(cdr (assoc 'bg-inactive modus-themes-vivendi-colors)))
   (add-to-list 'modus-themes-vivendi-colors `(bg-main . ,cus-bg-color))
+
   (setq modus-themes-mode-line '(borderless accented))
   :config
   (modus-themes-load-vivendi))
+
 
 ;; Make line wrap arrows darker
 (defface fringe-dark
@@ -548,6 +554,7 @@ there's no active region."
 ;; Show edited lines at the side
 (use-package diff-hl
   :ensure t
+  :after (modus-themes)
   :config
   (custom-set-faces
   `(diff-hl-change ((t (:background "#3A4232" :foreground ,cus-bg-color))))
