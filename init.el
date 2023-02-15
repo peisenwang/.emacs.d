@@ -17,6 +17,14 @@
 (split-window-horizontally)
 
 
+;;;; Customize
+;;   =========
+;; Put before most other config like themes
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(if (file-exists-p custom-file)
+    (load-file custom-file))
+
+
 ;;;; Packages general setting
 ;;   ========================
 (package-initialize)
@@ -33,22 +41,38 @@
 
 ;;;; Theme
 ;;   =====
-;; Fallback value
-(setq cus-bg-color "#222E32")
-
 (use-package modus-themes
   :ensure t
-  :init
-  (modus-themes-load-themes)
-  ;; Set background color
-  (setq cus-bg-color
-	(cdr (assoc 'bg-inactive modus-themes-vivendi-colors)))
-  (add-to-list 'modus-themes-vivendi-colors `(bg-main . ,cus-bg-color))
-
-  (setq modus-themes-mode-line '(borderless accented))
   :config
-  (modus-themes-load-vivendi))
+  (setq modus-themes-common-palette-overrides
+	'(;; (bg-main bg-dim)
+	  ;; Set fringe color same as bg
+	  (fringe bg-main)
+	  ;; No visual borderline
+	  (border-mode-line-active bg-mode-line-active)
+          (border-mode-line-inactive bg-mode-line-inactive)))
 
+  (setq modus-vivendi-palette-overrides
+	'(
+	  ;; Use fainter color for org mode headings
+	  ;; Generate the colors: utils/generate_colors.py
+	  (fainter-0 "#e0c1b6")
+	  (fainter-1 "#d2e0b6")
+	  (fainter-2 "#b6e0c7")
+	  (fainter-3 "#b6cce0")
+	  (fainter-4 "#ccb6e0")
+	  (fainter-5 "#e0b6c7")
+	  (fainter-6 "#e0d2b6")
+	  (fg-heading-2 fainter-3)
+	  (fg-heading-3 fainter-2)
+	  (fg-heading-4 fainter-6)
+	  (fg-heading-5 fainter-4)
+	  (fg-heading-6 fainter-1)
+	  (fg-heading-7 fainter-5)
+	  (prose-done fg-dim)))
+  (load-theme 'modus-vivendi :no-confirm)
+  ;; Get background color
+  (setq cus-bg-color (nth 1 (assoc 'bg-main modus-vivendi-palette))))
 
 ;; Make line wrap arrows darker
 (defface fringe-dark
@@ -629,10 +653,3 @@ there's no active region."
 ;;;; Load work-specific configs
 (if (file-exists-p (concat user-emacs-directory "work"))
     (load (concat user-emacs-directory "work/config.el")))
-
-
-;;;; Customize
-;;   =========
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(if (file-exists-p custom-file)
-    (load-file custom-file))
