@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: imshow
+# key: imshow
+# group: Debug
+# --
+cv2.imshow('', img)
+cv2.waitKey(0)
