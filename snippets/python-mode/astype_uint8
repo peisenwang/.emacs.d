@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: astype_uint8
+# key: .a8
+# group: numpy
+# --
+.astype(uint8)
