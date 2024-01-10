@@ -112,7 +112,8 @@
 
 ;; Save history for M-x etc
 (savehist-mode t)
-(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+(setq savehist-additional-variables
+      '(kill-ring search-ring regexp-search-ring))
 
 ;; Do not create lock files
 (setq create-lockfiles nil)
