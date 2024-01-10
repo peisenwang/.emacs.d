@@ -1,6 +1,0 @@
-[submodule "lib/dired-sidebar"]
-	path = lib/dired-sidebar
-	url = git@github.com:peisenwang/dired-sidebar.git
-[submodule "lib/ibuffer-sidebar"]
-	path = lib/ibuffer-sidebar
-	url = git@github.com:peisenwang/ibuffer-sidebar.git
