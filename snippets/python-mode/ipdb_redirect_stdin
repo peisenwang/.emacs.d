@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: ipdb.set_trace() with redirected stdin
+# key: sipdb
+# group: Debug
+# --
+import sys
+_ = sys.stdin.readlines()
+sys.stdin = open("/dev/tty")
+import ipdb; ipdb.set_trace()
