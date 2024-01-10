@@ -229,50 +229,6 @@ copied from https://stackoverflow.com/a/1774949"
 ;; (global-set-key (kbd "M-k") 'kill-this-buffer)
 
 
-;;;; Side bar
-;;   ========
-(use-package dired-sidebar
-  :defer t
-  :load-path "~/.emacs.d/lib/dired-sidebar"
-  :after (linum-off)
-  :bind (:map dired-sidebar-mode-map
-	      ("C-o" . nil))
-  :config
-  (add-to-list 'linum-disabled-modes-list 'dired-sidebar-mode)
-  (setq dired-sidebar-use-term-integration t
-	dired-sidebar-should-follow-file t
-	dired-sidebar-use-one-instance t
-	dired-sidebar-no-other-window t)
-  (defun sidebar-root-exclude-tramp (sidebar-root-fun &rest args)
-    "Show default directory for tramp files.
-
-Exclude tramp file from calling `project' in
-`dired-sidebar-sidebar-root' to prevent the repeating error
-of (remote-file-error 'Forbidden reentrant call of Tramp')
-reported in `dired-sidebar-follow-file'."
-    (if (file-remote-p default-directory)
-	default-directory
-      (apply sidebar-root-fun args)))
-  (advice-add 'dired-sidebar-sidebar-root :around
-	      #'sidebar-root-exclude-tramp))
-
-(use-package ibuffer-sidebar
-  :defer t
-  :load-path "~/.emacs.d/lib/ibuffer-sidebar"
-  :after (linum-off)
-  :bind (:map ibuffer-sidebar-mode-map
-	      ("C-o" . nil))
-  :config
-  (add-to-list 'linum-disabled-modes-list 'ibuffer-sidebar-mode)
-  (setq ibuffer-sidebar-no-other-window t))
-
-(defun sidebar-toggle ()
-  "Toggle both `dired-sidebar' and `ibuffer-sidebar'."
-  (interactive)
-  (dired-sidebar-toggle-sidebar)
-  (ibuffer-sidebar-toggle-sidebar))
-
-
 ;;;; Editing interface
 ;;   =================
 
