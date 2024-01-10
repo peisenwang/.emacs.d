@@ -48,6 +48,9 @@
 	'(;; (bg-main bg-dim)
 	  ;; Set fringe color same as bg
 	  (fringe bg-main)
+	  ;; Set line number area same as bg
+	  (bg-line-number-active bg-main)
+	  (bg-line-number-inactive bg-main)
 	  ;; No visual borderline
 	  (border-mode-line-active bg-mode-line-active)
           (border-mode-line-inactive bg-mode-line-inactive)))
@@ -274,13 +277,8 @@ copied from https://stackoverflow.com/a/1774949"
 ;; Show column number
 (setq column-number-mode t)
 
-;; Set line numbers with certain modes as exceptions
-(use-package linum-off
-  :ensure t
-  :init
-  (global-linum-mode t)
-  :config
-  (add-to-list 'linum-disabled-modes-list 'ansi-term))
+;; Display line numbers
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 
 ;;;;; Mode line
@@ -600,10 +598,7 @@ there's no active region."
 
 ;; epub
 (use-package nov
-  :mode ("\\.epub\\'" . nov-mode)
-  :after (linum-off)
-  :init
-  (add-to-list 'linum-disabled-modes-list 'nov-mode))
+  :mode ("\\.epub\\'" . nov-mode))
 
 
 ;;;; Load work-specific configs
