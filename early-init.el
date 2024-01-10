@@ -1,6 +1,6 @@
 ;;; Early emacs configurations before loading GUI
 ;;
-;; Copyright 2022 Peisen Wang
+;; Copyright 2022-2024 Peisen Wang
 
 ;; GUI
 (tool-bar-mode 0)
