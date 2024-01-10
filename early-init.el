@@ -20,3 +20,6 @@
 
 ;;; Native compilation
 (setq native-comp-async-report-warnings-errors 'silent)
+
+;; Set *scratch* buffer mode to plain text
+(setq initial-major-mode 'text-mode)
