@@ -589,7 +589,8 @@ there's no active region."
 
 ;; yasnippet
 (use-package yasnippet
-  :defer t)
+  :config
+  (yas-global-mode))
 
 ;; markdown
 (use-package markdown-mode
