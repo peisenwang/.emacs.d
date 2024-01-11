@@ -251,7 +251,9 @@ copied from https://stackoverflow.com/a/1774949"
   :config
   (setq ido-everywhere t
 	ido-enable-flex-matching t
-	ido-use-filename-at-point 'guess)
+	ido-use-filename-at-point 'guess
+	;; Stop ido from looking at other places when creating a file.
+	ido-auto-merge-work-directories-length -1)
   (ido-mode t)
   :bind
   ;; Previously binded to `set-goal-coloum' and will always pop up.
