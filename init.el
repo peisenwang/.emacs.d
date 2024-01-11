@@ -172,15 +172,6 @@ before items"
 
 ;;;; Window & buffer management
 ;;   ==========================
-;; Commented as I never got to use this
-;; (use-package ace-window
-;;   :ensure t
-;;   :bind
-;;   ;; Use "C-x C-o" instead of "C-x o" to switch windows
-;;   ;; (originally `delete-blank-lines')
-;;   (("C-x C-o" . ace-window)
-;;    ;; Use "C-M-o" for switching windows too (originally `split-line')
-;;    ("C-M-o" . ace-window)))
 
 ;; Switch window with simpler key binding
 ;; Previous binded to `open-line'
