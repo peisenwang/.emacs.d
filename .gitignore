@@ -1,4 +1,10 @@
-/session.*
+# Customize added by emacs
+/custom.el
+
+# Work-specific configs
+/work
+
+# - - -
 
 # Auto saves (#[FILE]#)
 /auto-saves
@@ -15,34 +21,35 @@
 # recentf
 /recentf
 
+# Sessions
+/session.*
+
 /tramp
 
 # packages
 /elpa
 
-# Customize added by emacs
-/custom.el
-
-# elpy
-/elpy
+# eshell
+/eshell/history
+/eshell/lastdir
 
 # ido
 ido.last
 
-# Work-specific configs
-/work
-
-# eshell
-/eshell/history
-/eshell/lastdir
+# project.el
+/projects
 
 /transient
 
 # eln-cache
 /eln-cache
 
-# nov mode
-nov-places
+# elpy
+/elpy
 
 # Org-roam db and possibly others
 *.db
+
+# nov mode
+nov-places
+
