@@ -159,8 +159,7 @@ before items"
    'tramp-cleanup-all-connections-hook
    #'tramp-recentf-cleanup-all)
   :bind
-  ;; Previous binded to `other-window'
-  ("C-x C-o" . recentf-open-files-without-indent))
+  ("C-x O" . recentf-open-files-without-indent))
 
 
 ;;;; General settings
@@ -231,6 +230,11 @@ copied from https://stackoverflow.com/a/1774949"
 ;; Auto load changed files
 (global-auto-revert-mode t)
 
+(defun find-file-recentf ()
+  "Open files from recentf."
+  (interactive)
+  (find-file (completing-read "Recent Files: " recentf-list nil t)))
+
 ;; Rename opened file
 (defun rename-current-file ()
   "Rename the current buffer and file it is visiting."
@@ -245,19 +249,29 @@ copied from https://stackoverflow.com/a/1774949"
           (rename-file filename new-name t)
           (set-visited-file-name new-name t t)))))))
 
-;; ido
-(use-package ido
+;; ;; ido
+;; (use-package ido
+;;   :demand
+;;   :config
+;;   (setq ido-everywhere t
+;; 	ido-enable-flex-matching t
+;; 	ido-use-filename-at-point 'guess
+;; 	;; Stop ido from looking at other places when creating a file.
+;; 	ido-auto-merge-work-directories-length -1)
+;;   (ido-mode t)
+;;   :bind
+;;   ;; Previously binded to `set-goal-coloum' and will always pop up.
+;;   ("C-x C-n" . ido-switch-buffer-other-window))
+
+;; fido-vertical-mode
+(use-package icomplete
   :demand
+  :after (recentf)
   :config
-  (setq ido-everywhere t
-	ido-enable-flex-matching t
-	ido-use-filename-at-point 'guess
-	;; Stop ido from looking at other places when creating a file.
-	ido-auto-merge-work-directories-length -1)
-  (ido-mode t)
+  (fido-vertical-mode)
   :bind
-  ;; Previously binded to `set-goal-coloum' and will always pop up.
-  ("C-x C-n" . ido-switch-buffer-other-window))
+  ;; Previous binded to `other-window'
+  ("C-x C-o" . find-file-recentf))
 
 ;; Better display for files with the same name
 (use-package uniquify
