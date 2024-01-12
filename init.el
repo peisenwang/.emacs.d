@@ -142,7 +142,7 @@ before items"
   ;; commented as "Setting this variable directly does not take effect"
   ;; (setq recentf-auto-cleanup 'never)
   :config
-  (setq recentf-max-saved-items 50
+  (setq recentf-max-saved-items 500
 	recentf-max-menu-items 50)
   ;; Don't show leading numbers as I never use them
   (setq recentf-show-file-shortcuts-flag nil)
