@@ -587,6 +587,14 @@ there's no active region."
 	;; C-. might be used by ibus, can be changed in ibus-setup
 	("C-c C-." . python-indent-shift-right)))
 
+;; tex
+;; Have to specifically use `latex' to change the `LaTeX-mode-map' keymap
+(use-package latex
+  :bind
+  (:map LaTeX-mode-map
+	;; Originally `reindent-then-newline-and-indent' in `LaTeX-mode-map'
+	("C-j" . nil)))
+
 ;; yasnippet
 (use-package yasnippet
   :config
