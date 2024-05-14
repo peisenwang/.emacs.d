@@ -271,7 +271,11 @@ copied from https://stackoverflow.com/a/1774949"
   (fido-vertical-mode)
   :bind
   ;; Previous binded to `other-window'
-  ("C-x C-o" . find-file-recentf))
+  ("C-x C-o" . find-file-recentf)
+  (:map icomplete-fido-mode-map
+	;; Originally bind to `icomplete-fido-kill', change to custom function
+	;; preventing saving to kill ring
+	("C-k" . delete-line)))
 
 ;; Better display for files with the same name
 (use-package uniquify
