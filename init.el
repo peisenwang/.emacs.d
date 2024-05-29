@@ -264,6 +264,7 @@ copied from https://stackoverflow.com/a/1774949"
 ;;   ("C-x C-n" . ido-switch-buffer-other-window))
 
 ;; fido-vertical-mode
+;; Note: Use "M-j" instead of enter to open file without auto completion.
 (use-package icomplete
   :demand
   :after (recentf)
