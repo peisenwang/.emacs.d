@@ -3,6 +3,6 @@
 # key: i
 # group: Import
 # condition: (looking-back "^i" nil)
-# Note: turn off trailing white-space deletion (ws-butler-mode) for this buffer
+# (!) turn off trailing white-space deletion (ws-butler-mode) for this buffer
 # --
 import 

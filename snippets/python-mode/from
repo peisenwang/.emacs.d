@@ -3,6 +3,5 @@
 # key: f
 # group: Import
 # condition: (looking-back "^f" nil)
-# Note: turn off trailing white-space deletion (ws-butler-mode) for this buffer
 # --
 from ${1:} import ${2:}
