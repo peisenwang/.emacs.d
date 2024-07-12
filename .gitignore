@@ -53,3 +53,5 @@ ido.last
 # nov mode
 nov-places
 
+# tree-sitter
+/tree-sitter/

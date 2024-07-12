@@ -537,6 +537,27 @@ there's no active region."
   ("C-x M-r" . vr/replace))
 
 
+;;;; Completion
+;;   ==========
+(use-package corfu
+  :custom
+  (corfu-auto t)  ;; Auto completion
+  (corfu-cycle t)  ;; Enable cycling for `corfu-next/previous'
+  (corfu-preselect 'prompt)  ;; Always preselect the prompt
+  ;; :hook ((prog-mode . corfu-mode)
+  :init
+  (global-corfu-mode))
+
+;; Enable indentation+completion using the TAB key.
+(setq tab-always-indent 'complete)
+
+
+;;;; Tree-sitter
+;;   ===========
+(add-to-list 'major-mode-remap-alist
+	     '(python-mode . python-ts-mode))
+
+
 ;;;; Version control
 ;;   ===============
 ;; I only use git currently
@@ -574,20 +595,15 @@ there's no active region."
 
 ;;;; Content-specific settings
 ;;   =========================
-;; elpy for python
-(use-package elpy
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable)
-  :config
-  (setq elpy-modules (delq 'elpy-module-highlight-indentation elpy-modules))
-  (setq elpy-rpc-python-command "python3")
-  (setq python-fill-docstring-style 'django)
+;; python
+(use-package eglot
+  :hook
+  ((python-ts-mode . eglot-ensure)))
+
+;; Have to specifically use `python' to change the `python-ts-mode-map' keymap
+(use-package python
   :bind
-  (:map elpy-mode-map
-	;; Overwrites `elpy-refactor-extract-function'
-	("C-c C-r f" . elpy-format-code))
-  (:map python-mode-map
+  (:map python-ts-mode-map
 	("C-c C-," . python-indent-shift-left)
 	;; C-. might be used by ibus, can be changed in ibus-setup
 	("C-c C-." . python-indent-shift-right)))
