@@ -2,6 +2,11 @@
 ;;
 ;; Copyright 2022-2024 Peisen Wang
 
+;; Make startup faster by reducing the frequency of garbage collection. This
+;; will be set back when startup finishes.
+;; Change the value from 800k (default) to 50M
+(setq gc-cons-threshold (* 50 1000 1000))
+
 ;; GUI
 (tool-bar-mode 0)
 (menu-bar-mode 0)

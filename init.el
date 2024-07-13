@@ -646,5 +646,12 @@ there's no active region."
 
 
 ;;;; Load work-specific configs
+;;   ==========================
 (if (file-exists-p (concat user-emacs-directory "work"))
     (load (concat user-emacs-directory "work/config.el")))
+
+
+;;;; Finish
+;;   ======
+;; Make gc pauses faster by decreasing the threshold.
+(setq gc-cons-threshold (* 2 1000 1000))
