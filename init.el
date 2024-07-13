@@ -608,6 +608,12 @@ there's no active region."
 	;; C-. might be used by ibus, can be changed in ibus-setup
 	("C-c C-." . python-indent-shift-right)))
 
+(use-package pyvenv
+  :config
+  (pyvenv-mode t)
+  ;; Default venv to use
+  (pyvenv-activate "~/.venv/m"))
+
 ;; tex
 ;; Have to specifically use `latex' to change the `LaTeX-mode-map' keymap
 (use-package latex
