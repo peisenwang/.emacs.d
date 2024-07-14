@@ -596,7 +596,14 @@ there's no active region."
 ;;;; Content-specific settings
 ;;   =========================
 ;; python
+;; Requirement: "pip install python-lsp-server" into the venv
+;; Also: python-lsp-ruff, pylsp-mypy, pylsp-rope
+;; Possible setup: https://www.adventuresinwhy.com/post/eglot/
 (use-package eglot
+  ;; :custom
+  ;; (eglot-events-buffer-size 0) ;; No event buffers (Lsp server logs)
+  ;; (eglot-report-progress nil) ;; Disable lsp server logs
+  ;; (eglot-autoshutdown t);; Shutdown unused servers.
   :hook
   ((python-ts-mode . eglot-ensure)))
 
