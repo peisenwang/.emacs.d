@@ -55,3 +55,6 @@ nov-places
 
 # tree-sitter
 /tree-sitter/
+
+# local repository from elpa-mirror
+/elpa-archive
