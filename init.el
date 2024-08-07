@@ -616,6 +616,7 @@ there's no active region."
 	("C-c C-." . python-indent-shift-right)))
 
 (use-package pyvenv
+  :after python
   :config
   (pyvenv-mode t)
   ;; Default venv to use
