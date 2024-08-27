@@ -554,8 +554,18 @@ there's no active region."
 
 ;;;; Tree-sitter
 ;;   ===========
-(add-to-list 'major-mode-remap-alist
-	     '(python-mode . python-ts-mode))
+(use-package treesit
+  :config
+  (setq treesit-language-source-alist
+         '((bash       . ("https://github.com/tree-sitter/tree-sitter-bash"))
+           (c          . ("https://github.com/tree-sitter/tree-sitter-c"))
+           (cmake      . ("https://github.com/uyha/tree-sitter-cmake"))
+           (cpp        . ("https://github.com/tree-sitter/tree-sitter-cpp"))
+           (dockerfile . ("https://github.com/camdencheek/tree-sitter-dockerfile"))
+           (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+           (json       . ("https://github.com/tree-sitter/tree-sitter-json"))
+           (python     . ("https://github.com/tree-sitter/tree-sitter-python"))
+           (yaml       . ("https://github.com/ikatyang/tree-sitter-yaml")))))
 
 
 ;;;; Version control
@@ -609,6 +619,9 @@ there's no active region."
 
 ;; Have to specifically use `python' to change the `python-ts-mode-map' keymap
 (use-package python
+  :init
+  (add-to-list 'major-mode-remap-alist
+	       '(python-mode . python-ts-mode))
   :bind
   (:map python-ts-mode-map
 	("C-c C-," . python-indent-shift-left)
