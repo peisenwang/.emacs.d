@@ -554,6 +554,7 @@ there's no active region."
 
 ;;;; Tree-sitter
 ;;   ===========
+;; Use `treesit-install-language-grammar' to install lauguage grammers
 (use-package treesit
   :config
   (setq treesit-language-source-alist
@@ -634,6 +635,11 @@ there's no active region."
   (pyvenv-mode t)
   ;; Default venv to use
   (pyvenv-activate "~/.venv/m"))
+
+;; cmake
+(use-package cmake-ts-mode
+  :mode (("CMakeLists\\.txt\\'" . cmake-ts-mode)
+         ("\\.cmake\\'"         . cmake-ts-mode)))
 
 ;; tex
 ;; Have to specifically use `latex' to change the `LaTeX-mode-map' keymap
