@@ -107,8 +107,18 @@
 ;; Tramp backup settings
 ;; (add-to-list 'backup-directory-alist
 ;;              (cons tramp-file-name-regexp nil))
-(setq tramp-backup-directory-alist backup-directory-alist)
-(setq tramp-auto-save-directory auto-save-file-directory)
+(use-package tramp
+  :defer t
+  :after recentf
+  :config
+  (setq tramp-backup-directory-alist backup-directory-alist
+	tramp-auto-save-directory auto-save-file-directory)
+  (remove-hook
+   'tramp-cleanup-connection-hook
+   #'tramp-recentf-cleanup)
+  (remove-hook
+   'tramp-cleanup-all-connections-hook
+   #'tramp-recentf-cleanup-all))
 
 ;; Save history for M-x etc
 (savehist-mode t)
@@ -136,11 +146,10 @@ before items"
 
 (use-package recentf
   :hook (after-init . recentf-mode)
-  ;; :init
+  :init
   ;; Recentf for some reason will clean opened tramp files when the system is
   ;; offline. Disable auto cleanup temporarily to prevent that.
-  ;; commented as "Setting this variable directly does not take effect"
-  ;; (setq recentf-auto-cleanup 'never)
+  (custom-set-variables '(recentf-auto-cleanup 'never))
   :config
   (setq recentf-max-saved-items 500
 	recentf-max-menu-items 50)
@@ -152,12 +161,6 @@ before items"
   ;;  'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
   (setq recentf-keep '(recentf-keep-default-predicate file-remote-p))
   ;; From tramp user manual
-  (remove-hook
-   'tramp-cleanup-connection-hook
-   #'tramp-recentf-cleanup)
-  (remove-hook
-   'tramp-cleanup-all-connections-hook
-   #'tramp-recentf-cleanup-all)
   :bind
   ("C-x O" . recentf-open-files-without-indent))
 
