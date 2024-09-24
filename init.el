@@ -105,14 +105,13 @@
       `((".*" ,auto-save-file-directory t)))
 
 ;; Tramp backup settings
-;; (add-to-list 'backup-directory-alist
-;;              (cons tramp-file-name-regexp nil))
 (use-package tramp
-  :defer t
   :after recentf
   :config
-  (setq tramp-backup-directory-alist backup-directory-alist
-	tramp-auto-save-directory auto-save-file-directory)
+  ;; Stop tramp from making backups: https://stackoverflow.com/a/77607584
+  (setq tramp-backup-directory-alist nil)
+  (setq tramp-auto-save-directory auto-save-file-directory)
+  ;; From tramp user manual
   (remove-hook
    'tramp-cleanup-connection-hook
    #'tramp-recentf-cleanup)
@@ -160,7 +159,6 @@ before items"
   ;; (add-to-list
   ;;  'recentf-exclude (format "%s/\\.emacs\\.d/elpa/.*" (getenv "HOME")))
   (setq recentf-keep '(recentf-keep-default-predicate file-remote-p))
-  ;; From tramp user manual
   :bind
   ("C-x O" . recentf-open-files-without-indent))
 
