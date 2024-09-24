@@ -111,6 +111,9 @@
   ;; Stop tramp from making backups: https://stackoverflow.com/a/77607584
   (setq tramp-backup-directory-alist nil)
   (setq tramp-auto-save-directory auto-save-file-directory)
+  ;; From manual: You can prevent the creation of remote lock files by setting 
+  ;; the variable `remote-file-name-inhibit-locks' to t.
+  (setq remote-file-name-inhibit-locks t)
   ;; From tramp user manual
   (remove-hook
    'tramp-cleanup-connection-hook
