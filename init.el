@@ -112,6 +112,10 @@
   :after recentf
   :config
   (setq tramp-auto-save-directory auto-save-file-directory)
+  ;; Prevent tramp from asking to verify "Autosave file on local temporary 
+  ;; directory, do you want to continue?" when logging into remote container 
+  ;; as root.
+  (setq tramp-allow-unsafe-temporary-files t)
   ;; From manual: You can prevent the creation of remote lock files by setting 
   ;; the variable `remote-file-name-inhibit-locks' to t.
   (setq remote-file-name-inhibit-locks t)
