@@ -365,6 +365,7 @@ copied from https://stackoverflow.com/a/1774949"
 ;; Auto delete trailing whitespaces.
 (use-package ws-butler
   :ensure t
+  :diminish
   :hook (prog-mode . ws-butler-mode)
   :config
   (setq ws-butler-keep-whitespace-before-point nil))
