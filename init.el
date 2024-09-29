@@ -89,13 +89,16 @@
 
 ;;;; Backup and autosave
 ;;   ===================
-;; Backup ([FILE]~) settings
+;; Backup ([FILE]~, [FILE].~1~) settings
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups"))))
 (setq delete-old-versions t
       kept-new-versions 6
       kept-old-versions 2
       version-control t)
+
+;; Stop backing up remote files to speedup tramp
+(setq backup-enable-predicate '(lambda (f) (not (file-remote-p f))))
 
 ;; Auto save (#[FILE]#) settings
 (defvar auto-save-file-directory
@@ -104,12 +107,10 @@
 (setq auto-save-file-name-transforms
       `((".*" ,auto-save-file-directory t)))
 
-;; Tramp backup settings
+;; Tramp
 (use-package tramp
   :after recentf
   :config
-  ;; Stop tramp from making backups: https://stackoverflow.com/a/77607584
-  (setq tramp-backup-directory-alist nil)
   (setq tramp-auto-save-directory auto-save-file-directory)
   ;; From manual: You can prevent the creation of remote lock files by setting 
   ;; the variable `remote-file-name-inhibit-locks' to t.
