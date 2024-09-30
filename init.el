@@ -584,6 +584,14 @@ there's no active region."
 ;; I only use git currently
 (setq vc-handled-backends '(Git))
 
+;; Disable vc for remote files as tramp sometimes breaks with "Tramp: Checking 
+;; 'vc-registered' for [path]...failed"
+;; From tramp FAQ
+(setq vc-ignore-dir-regexp
+      (format "\\(%s\\)\\|\\(%s\\)"
+              vc-ignore-dir-regexp
+              tramp-file-name-regexp))
+
 ;; Show edited lines at the side
 (use-package diff-hl
   :ensure t
