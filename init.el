@@ -656,12 +656,11 @@ there's no active region."
 
 ;; yaml
 (use-package yaml-ts-mode
-  :mode "\\.ya?ml$")
+  :mode "\\.ya?ml\\'")
 
 ;; cmake
 (use-package cmake-ts-mode
-  :mode (("CMakeLists\\.txt\\'" . cmake-ts-mode)
-         ("\\.cmake\\'"         . cmake-ts-mode)))
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
 
 ;; tex
 ;; Have to specifically use `latex' to change the `LaTeX-mode-map' keymap
@@ -678,14 +677,14 @@ there's no active region."
 
 ;; markdown
 (use-package markdown-mode
-  :commands(markdown-mode gfm-mode)
+  :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode)))
 
 ;; js
 (use-package js-mode
-  :mode (("\\.js" . js-jsx-mode))
+  :mode (("\\.js\\'" . js-jsx-mode))
   :init
   (setq js-indent-level 2))
 
