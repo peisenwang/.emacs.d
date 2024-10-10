@@ -576,7 +576,7 @@ there's no active region."
            (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
            (json       . ("https://github.com/tree-sitter/tree-sitter-json"))
            (python     . ("https://github.com/tree-sitter/tree-sitter-python"))
-           (yaml       . ("https://github.com/ikatyang/tree-sitter-yaml")))))
+           (yaml       . ("https://github.com/tree-sitter-grammars/tree-sitter-yaml")))))
 
 
 ;;;; Version control
@@ -653,6 +653,10 @@ there's no active region."
   (pyvenv-mode t)
   ;; Default venv to use
   (pyvenv-activate "~/.venv/m"))
+
+;; yaml
+(use-package yaml-ts-mode
+  :mode "\\.ya?ml$")
 
 ;; cmake
 (use-package cmake-ts-mode
