@@ -478,6 +478,7 @@ under-scrolled."
   (interactive
    (if mark-active
        (list (region-beginning) (region-end))
+     (set-marker (mark-marker) (point))
      (message "Copied line")
      (list (line-beginning-position) (line-beginning-position 2)))))
 
