@@ -356,8 +356,8 @@ copied from https://stackoverflow.com/a/1774949"
 
 ;;;;; Empty texts
 ;; Tab size
-(setq tab-width 4
-      indent-tabs-model nil)
+(setq-default tab-width 4
+	      indent-tabs-mode nil)
 
 ;; EOF newline
 (setq require-final-newline t)
