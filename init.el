@@ -382,12 +382,7 @@ under-scrolled."
   (interactive)
   (fill-paragraph)
   (if (< (current-column) (window-body-width))
-      (let ((offset
-	     (- (current-column)
-		(/ (- (car (window-absolute-pixel-position))
-		      (car (window-absolute-body-pixel-edges)))
-		   (frame-char-width)))))
-	(if offset (scroll-right offset)))))
+      (scroll-right offset)))
 
 (global-set-key (kbd "M-q") 'fill-paragraph-scroll-right)
 
