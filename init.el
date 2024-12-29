@@ -410,6 +410,17 @@ under-scrolled."
    ("C-=" . hs-show-all)
    ("<C-tab>" . hs-toggle-hiding)))
 
+;;;;; Highlighting
+(use-package symbol-overlay
+  :hook
+  ((prog-mode . symbol-overlay-mode))
+  :bind
+  (("M-i" . 'symbol-overlay-put)
+   ("M-n" . 'symbol-overlay-jump-next)
+   ("M-p" . 'symbol-overlay-jump-prev)
+   ("M-N" . 'symbol-overlay-switch-forward)
+   ("M-P" . 'symbol-overlay-switch-backward)
+   ("M-I" . 'symbol-overlay-remove-all)))
 
 ;;;; Editing control
 ;;   ===============
