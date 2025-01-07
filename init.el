@@ -231,6 +231,9 @@ copied from https://stackoverflow.com/a/1774949"
 ;; ;; Kill current buffer with "M-k" (originally `kill-sentence')
 ;; (global-set-key (kbd "M-k") 'kill-this-buffer)
 
+;; Reload buffer manually
+(global-set-key (kbd "<f5>") 'revert-buffer)
+
 
 ;;;; Editing interface
 ;;   =================
