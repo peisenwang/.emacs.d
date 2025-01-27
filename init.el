@@ -222,9 +222,11 @@ copied from https://stackoverflow.com/a/1774949"
 
 (global-set-key (kbd "C-x C-M-o") 'swap-buffers-in-windows)
 
-;; Swap "C-x b" and "C-x C-b" for buffer switching
-(global-set-key (kbd "C-x b") 'list-buffers)
+;; Use "C-x C-b" instead of "C-x b"  for buffer switching, previously binded to `list-buffers'
 (global-set-key (kbd "C-x C-b") 'switch-to-buffer)
+;; Use `buffer-menu' instead of `list-buffers' to open list in current 
+;; window. Previously binded to `switch-to-buffer'
+(global-set-key (kbd "C-x b") 'buffer-menu)
 
 ;; Kill current buffer with "C-x C-k" (originally `kill-buffer')
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)
