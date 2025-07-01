@@ -108,6 +108,8 @@
       `((".*" ,auto-save-file-directory t)))
 
 ;; Tramp
+;; See https://coredumped.dev/2025/06/18/making-tramp-go-brrrr./ for
+;; some further improvement insights
 (use-package tramp
   :after recentf
   :config
@@ -119,6 +121,8 @@
   ;; From manual: You can prevent the creation of remote lock files by setting 
   ;; the variable `remote-file-name-inhibit-locks' to t.
   (setq remote-file-name-inhibit-locks t)
+  ;; Use a larger maximum file size for base64 inline copying
+  (setq tramp-copy-size-limit (* 1024 1024)) ;; 1Mb
   ;; From tramp user manual
   (remove-hook
    'tramp-cleanup-connection-hook
